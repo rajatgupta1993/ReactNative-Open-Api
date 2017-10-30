@@ -4,13 +4,13 @@ import * as tokenActions from './actions';
 
 const mapStateToProps = (store) => {
     return {
-        //userData: store.userInfo.userData,
+        userData: store.userInfo.userData,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        //getUserDetails: (accessToken) => dispatch(tokenActions.getUser(accessToken)),
+        getUserDetails: (accessToken) => dispatch(tokenActions.getUser(accessToken)),
     };
 };
 

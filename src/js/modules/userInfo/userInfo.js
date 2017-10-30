@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,   
+  Button,  
+  TextInput, 
 } from 'react-native';
 
 // import DetailsHeader from 'src/js/components/detailsHeader';
@@ -29,9 +30,13 @@ class UserInfo extends React.PureComponent {
 
     render() {
         return (
-         
-
-            <Text> Add Token 1</Text>
+            
+            <TextInput
+                 style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                 placeholder="Paste authorization token here"
+                 onChangeText={this.handleTokenChng}
+                 value={this.state.accessToken} 
+            />
         );
     }
 }

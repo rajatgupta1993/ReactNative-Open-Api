@@ -7,12 +7,15 @@
     "test": "jest"
   },
   "dependencies": {
+    "jquery": "^3.2.1",
+    "openapi-clientlib": "^2.0.0-beta.2",
     "react": "16.0.0-beta.5",
     "react-native": "0.49.3",
     "react-navigation": "^1.0.0-beta.15",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "signalr": "^2.2.2"
   },
   "devDependencies": {
     "babel-jest": "21.2.0",
