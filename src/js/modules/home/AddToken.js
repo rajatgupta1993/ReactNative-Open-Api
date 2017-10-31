@@ -7,7 +7,7 @@ import {
   Button,   
 } from 'react-native';
 
-import Stylesheet from '../common/Stylesheet' 
+import Stylesheet from '../../../styles/Stylesheet' 
 
 export default class AddToken extends Component{
 
