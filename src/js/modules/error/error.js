@@ -1,7 +1,7 @@
 import React from 'react';
-import classNames from 'classnames';
+import { View, Text, Picker, StyleSheet,Button } from 'react-native'
 import { bool, func, string } from 'prop-types';
-import { Panel } from 'react-bootstrap';
+import Stylesheet from '../../../styles/Stylesheet'
 
 class Error extends React.PureComponent {
     constructor(props) {
@@ -10,9 +10,12 @@ class Error extends React.PureComponent {
     }
 
     render() {
-        const errorClass = classNames({ 'hide': !this.props.showError });
+       // const errorClass = classNames({ 'hide': !this.props.showError });
         return (
-            <Panel header="Alert" bsStyle="danger" className={errorClass}>{ this.props.errMessage || this.props.children}</Panel>
+         <View >
+               { (this.props.showError) && (
+                   <Text style={{color:'red', fontSize:16,marginBottom:5}} > { this.props.errMessage || this.props.children} </Text>)}
+            </View>
         );
     }
 }

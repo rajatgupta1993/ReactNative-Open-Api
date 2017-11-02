@@ -17,7 +17,6 @@ export default class Home extends Component{
         return  ( 
             
             <View style={{flex:1,justifyContent:'center', alignItems:'center'}} >
-              
                 <Button style={{}} 
                         title="Enter Access Token" 
                         onPress={()=> this.props.navigation.navigate('AddToken')}/>
@@ -25,7 +24,6 @@ export default class Home extends Component{
                 <Button style={{marginTop:20,padding:5}} 
                         title="Orders"
                          onPress={()=> this.props.navigation.navigate('Orders')}/>
-               
             </View>
         ) 
     }

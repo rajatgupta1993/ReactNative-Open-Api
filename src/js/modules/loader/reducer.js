@@ -4,7 +4,6 @@ import _ from 'lodash';
 const initialState = { isLoading: false };
 
 function showLoader(state) {
-    debugger;
     return _.defaults({ isLoading: true }, state);
 }
 

@@ -6,14 +6,16 @@ import {
     View,
     Button,
     TextInput,
-    ActivityIndicator
+    ActivityIndicator,
+    ScrollView
 } from 'react-native';
 
 // import DetailsHeader from 'src/js/components/detailsHeader';
-// import { object, string, func } from 'prop-types';
+ import { object, string, func } from 'prop-types';
 // import DataTable from 'src/js/components/dataTable';
-// import Error from '../error';
+ import Error from '../error';
 import Stylesheet from '../../../styles/Stylesheet'
+import DataTable from '../../components/dataTable'
 
 class UserInfo extends React.PureComponent {
     constructor(props) {
@@ -38,7 +40,12 @@ class UserInfo extends React.PureComponent {
         console.log(store);
         console.log(isLoading);
         return (
-             <View style={[Stylesheet.AppPaddingLeftRight, Stylesheet.AppPaddingTop, Stylesheet.FlexOne, Stylesheet.WhiteBg]}>
+            <ScrollView style={[Stylesheet.FlexOne, Stylesheet.WhiteBg]}>
+             <View style={[Stylesheet.AppPaddingLeftRight, Stylesheet.AppPaddingTop, Stylesheet.FlexOne]}>
+
+                  <Error>
+                        Please enter correct access token below.
+                   </Error>
                 {(isLoading)? ( <ActivityIndicator
                     animating={true}
                     color='#bc2b78'
@@ -50,7 +57,7 @@ class UserInfo extends React.PureComponent {
                             <TextInput
                                 style={{ height: 40, marginBottom: 20, marginTop: 10 }}
                                 multiline={true}
-                                autoGrow={true}
+                                //autoGrow={true}
                                 selectTextOnFocus={true}
                                 placeholder="Paste authorization token here"
                                 onChangeText={this.handleTokenChng}
@@ -62,24 +69,24 @@ class UserInfo extends React.PureComponent {
                         </View> )}
 
                         {(userData != null && userData.ClientKey != null) && (
-                            <View style={[Stylesheet.BoxUnderline, { marginTop: 20 }]}>
-                                <Text> Login Succesfully </Text>
+                            <View style={[Stylesheet.BoxUnderline, { marginTop: 20,height:400}]}>
+                                <DataTable data={userData}/>
                             </View>)}
                             
                  
                     </View>
+                    </ScrollView>
            
                    
         );
 }
 }
 
-// UserInfo.propTypes = {
-//     accessToken: string,
-//     userData: object,
-//     match: object,
-//     getUserDetails: func.isRequired,
-// };
+UserInfo.propTypes = {
+    accessToken: string,
+    userData: object,
+    getUserDetails: func.isRequired,
+};
 
 // UserInfo.defaultProps = {
 //     userData: {},

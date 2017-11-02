@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import UserInfo from '../userInfo/index'
-import Orders from '../orders/orders'
+import Orders from '../orders/index'
 import Home from '../home/home'
 
 const RootNavigator = StackNavigator({
