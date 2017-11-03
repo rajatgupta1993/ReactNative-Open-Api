@@ -6,7 +6,6 @@ import {
     View,
     Button,
     TextInput,
-    ActivityIndicator,
     ScrollView
 } from 'react-native';
 
@@ -16,6 +15,7 @@ import {
  import Error from '../error';
 import Stylesheet from '../../../styles/Stylesheet'
 import DataTable from '../../components/dataTable'
+import ActivityIndicator from '../../components/activityIndicator'
 
 class UserInfo extends React.PureComponent {
     constructor(props) {
@@ -41,17 +41,16 @@ class UserInfo extends React.PureComponent {
         console.log(isLoading);
         return (
             <ScrollView style={[Stylesheet.FlexOne, Stylesheet.WhiteBg]}>
-             <View style={[Stylesheet.AppPaddingLeftRight, Stylesheet.AppPaddingTop, Stylesheet.FlexOne]}>
+             <View style={[Stylesheet.AppPaddingX, Stylesheet.AppPaddingTop, Stylesheet.FlexOne]}>
 
                   <Error>
                         Please enter correct access token below.
                    </Error>
                 {(isLoading)? ( <ActivityIndicator
                     animating={true}
-                    color='#bc2b78'
+                    color='#4c4cff'
                     size="large"
-                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 80 }}
-                />) :(
+                      />) :(
                         <View style={[Stylesheet.BoxUnderline]}>
                             <Text style={Stylesheet.h3}>Set Access Token </Text>
                             <TextInput

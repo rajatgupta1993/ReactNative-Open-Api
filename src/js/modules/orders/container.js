@@ -9,6 +9,7 @@ import Orders from './orders';
 const mapStateToProps = (store) => {
     return {
         accessToken: store.userInfo.accessToken,
+        isLoading:store.loader.isLoading,
     };
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, StyleSheet, Text, View, Button,} from 'react-native';
+import { Platform, StyleSheet, Text, View, Button, } from 'react-native';
 import * as queries from './queries';
 import { object } from 'prop-types';
 import Error from '../error';
@@ -7,6 +7,10 @@ import Instruments from '../assets/instruments';
 import Options from '../assets/options';
 import Dropdown from '../../components/dropdown';
 import { checkIfOption } from '../../utils/global';
+import ActivityIndicator from '../../components/activityIndicator'
+import Stylesheet from '../../../styles/Stylesheet'
+//var BUTTONS = ["Option 0", "Option 1", "Option 2", "Option 0", "Option 1", "Option 2", "Option 0", "Option 1", "Option 2", "Option 0", "Option 1", "Option 2", "Delete", "Cancel"];
+
 
 class Orders extends React.PureComponent {
     constructor() {
@@ -138,31 +142,42 @@ class Orders extends React.PureComponent {
     }
 
     render() {
-        console.log('*******', this.props);
+        console.log('props in Order', this.props);
+        console.log('States in Order', this.state);
         const accountTitle = this.state.selectedAccount ? this.state.selectedAccount.AccountId : 'Select Account';
         return (
-            <View>
-                
-                    <Error>
-                        Enter correct access token using
-                    </Error>
-                    <Instruments
-                        {...this.props}
-                        onInstrumentSelected={this.handleInstrumentChange.bind(this)}
-                        onOptionRootSelected={this.handleOptionRoot.bind(this)}
-                        onAssetTypeSelected={this.handleAssetTypeChange.bind(this)}
-                    >
+            <View style={[Stylesheet.FlexOne, Stylesheet.BlackBg,Stylesheet.AppPaddingX,Stylesheet.AppPaddingTop]}>
 
-                        {/* select account dropdown*/}
+                <Error>
+                    Enter correct access token using
+                 </Error>
+                {(this.props.isLoading) && (<ActivityIndicator
+                    animating={true}
+                    color='#4c4cff'
+                    size="large"
+                />)}
+                <Instruments
+                    {...this.props}
+                    onInstrumentSelected={this.handleInstrumentChange.bind(this)}
+                    onOptionRootSelected={this.handleOptionRoot.bind(this)}
+                    onAssetTypeSelected={this.handleAssetTypeChange.bind(this)}
+                >
+
+                    {/* select account dropdown*/}
+                    <View style={[Stylesheet.BoxUnderline,Stylesheet.XCenter,Stylesheet.YCenter,
+                                 { flexDirection: 'row',height:40,padding:0,paddingHorizontal:20,marginTop:5,backgroundColor:'#000' }]}>
+                        <Text style={[Stylesheet.Text12BoldWhite,{ flex: 1 }]}>Select Account </Text>
                         <Dropdown
-                            title={accountTitle}
+                            promptHeading={accountTitle}
                             handleSelect={this.handleAccountSelect.bind(this)}
                             data={this.state.accounts}
                             itemKey="AccountId"
                             value="AccountId"
                             id="accounts"
                         />
-                    </Instruments>
+                    </View>
+                </Instruments>  
+
             </View>
         );
     }
