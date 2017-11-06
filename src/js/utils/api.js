@@ -20,6 +20,16 @@ export function getInstruments(accessToken, assetTypes, keyword) {
     });
 }
 
+// fetch instruments from client lib based on the searched keyword 
+export function searchInstruments(accessToken, keyword) {
+    return services.getData({
+        serviceGroup: 'ref',
+        endPoint: 'v1/instruments',
+        queryParams: { Keywords: keyword },
+        accessToken,
+    });
+}
+
 // fetch instrument details from client lib based on Uic and AssetType
 // eg: Query Params : { AssetType: 'FxSpot', Uic: 21 }
 export function getInstrumentDetails(accessToken, uic, assetTypes) {

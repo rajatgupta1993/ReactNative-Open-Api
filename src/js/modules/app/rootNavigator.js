@@ -1,6 +1,7 @@
 import { StackNavigator } from 'react-navigation';
 import UserInfo from '../userInfo/index'
 import Orders from '../orders/index'
+import SearchInstrument from '../orders/index'
 import Home from '../home/home'
 
 const RootNavigator = StackNavigator({
@@ -23,6 +24,13 @@ const RootNavigator = StackNavigator({
         screen : Orders,
          navigationOptions: {
             headerTitle: 'Orders',
+        },
+    },
+
+    SearchInstrument :{
+        screen : SearchInstrument,
+         navigationOptions: {
+            headerTitle: 'Search Instrument',
         },
     }
 });

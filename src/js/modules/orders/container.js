@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as errorActions from '../error/actions';
 import * as loaderActions from '../loader/actions';
-import Orders from './orders';
+import SearchInstrument from './searchInstrument';
 
 // this module handles detail page which has child routing for other modules
 // like introduction, ref, portfolio and other, so store is attached here and
@@ -23,5 +23,5 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-// using withRouter to fix the issue of react-router-dom v4 not working with the redux container
-export default connect(mapStateToProps, mapDispatchToProps)(Orders);
+// using withRouter to fix the issue of react-router-dom v4 not working with the redux container 
+export default connect(mapStateToProps, mapDispatchToProps)(SearchInstrument);

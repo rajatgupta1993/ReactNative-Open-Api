@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getInfoPrices, placeOrder, getAccountInfo } from '../../utils/api';
+import { getInfoPrices, placeOrder, getAccountInfo, searchInstruments } from '../../utils/api';
 import { doWithLoader } from '../../utils/global';
 
 export function getAskBidFormData(instrumentInfo, currentOrder) {
@@ -199,4 +199,8 @@ export function getAccountArray(accountInfo) {
         result.push(value);
         return result;
     }, []);
+}
+
+export function fetchInstrumentsByKeyword(eventKey, props, cb) {
+    doWithLoader(props, _.partial(searchInstruments, props.accessToken, eventKey), (result) => cb(result.response));
 }

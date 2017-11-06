@@ -65,14 +65,32 @@ const styles = StyleSheet.create({
     Text12BoldBlack : {
         fontSize:12,
         fontWeight:'500',
-        color:'#000'
+        color:'#000',
+        fontFamily:'roboto'
     },
 
     Text12BoldWhite : {
         fontSize:12,
-        fontWeight:'400',
-        color:'#fff'
+        fontWeight:'600',
+        color:'#fff',
+        fontFamily:'roboto'
+    },
+
+    searchInstrumentRow : {
+        borderWidth:.5,
+        borderColor:'#000',
+        backgroundColor:'#444',
+        paddingHorizontal:20,
+        paddingVertical: 8
+    },
+
+    searchInstrumentRowMinorText: {
+        color:'#AAA',
+        fontSize:11,
+        fontFamily:'roboto',
     }
+
+
 
 })
 
