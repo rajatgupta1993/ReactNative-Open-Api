@@ -1,4 +1,3 @@
-console.log('insdie data service')
 import signalr from 'react-native-signalr';
 import saxo from 'openapi-clientlib';
 //import '../../libs/jquery-3.1.1';
@@ -6,8 +5,7 @@ import saxo from 'openapi-clientlib';
 //import $ from 'jquery';
 // window.jQuery = $;
 
- console.log(window);
- console.log(saxo);
+ 
 // console.log($);
 // console.log(window.$);
 // var jQuery= $;

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Platform, StyleSheet, Text, View, Button, } from 'react-native';
+import { Platform, StyleSheet, Text, View,  TouchableOpacity, TextInput, ScrollView, Dimensions,ToastAndroid } from 'react-native';
+import { Container, Header, Item, Input, Icon, ActionSheet, Root,Button } from 'native-base';
 import * as queries from './queries';
 import { object } from 'prop-types';
 import Error from '../error';
@@ -9,13 +10,17 @@ import Dropdown from '../../components/dropdown';
 import { checkIfOption } from '../../utils/global';
 import ActivityIndicator from '../../components/activityIndicator'
 import Stylesheet from '../../../styles/Stylesheet'
+import { fetchInstrumentDetails } from '../assets/queries';
 //var BUTTONS = ["Option 0", "Option 1", "Option 2", "Option 0", "Option 1", "Option 2", "Option 0", "Option 1", "Option 2", "Option 0", "Option 1", "Option 2", "Delete", "Cancel"];
-
+let orderDuration = ['DayOrder', 'GoodTillCancel', 'ImmediateOrCancel'];
+const { width, height } = Dimensions.get('window');
 
 class Orders extends React.PureComponent {
-    constructor() {
-        super();
-
+    constructor(props) {
+        super(props);
+        console.log(props);
+         this.actionSheet = null;
+        //  const props=this.props.navigation.state.params;
         // currentOrder contains minimum required parameters for placing an order
         this.currentOrder = {
             // default values on UI.
@@ -63,12 +68,41 @@ class Orders extends React.PureComponent {
             stopLossOpen: false,
             optionRoot: null,
         };
+
+        this.handleInstrumentSelection = this.handleInstrumentSelection.bind(this);
+        this.handleInstrumentChange = this.handleInstrumentChange.bind(this);
+        this.handleAssetTypeChange = this.handleAssetTypeChange.bind(this);
+        this.handleOptionRoot = this.handleOptionRoot.bind(this);
+        this.handleAccountSelect = this.handleAccountSelect.bind(this);
+        this.handlePlaceOrder=this.handlePlaceOrder.bind(this);
+        this.roundUptoNDecimals = this.roundUptoNDecimals.bind(this);
     }
 
     componentDidMount() {
+
+        const { instrument } = this.props;
         queries.fetchAccountInfo(this.props, (response) => {
             this.setState({ accounts: queries.getAccountArray(response) });
+             this.handleAccountSelect(this.state.accounts[0]); 
         });
+       
+        this.handleInstrumentSelection(instrument);
+    }
+
+    handleInstrumentSelection(instrument) {
+        /* checkIfOption
+           true  : simply update state to render option component.
+           false : get instrument details.
+        */
+
+        if (checkIfOption(instrument.AssetType)) {
+            this.handleOptionRoot(instrument);
+        } else {
+            fetchInstrumentDetails(instrument, this.props, (response) => {
+                this.handleInstrumentChange(response);
+            });
+        }
+        // this.setState({ title: instrument.Description });
     }
 
     handleInstrumentChange(instrument) {
@@ -123,8 +157,11 @@ class Orders extends React.PureComponent {
         this.setState({ stopLossOpen: !this.state.stopLossOpen });
     }
 
-    handlePlaceOrder() {
+    handlePlaceOrder(BuySell) {
         this.currentOrder.Orders = [];
+        console.log("*****",this.state);
+        console.log("****CO***",this.currentOrder);
+        this.currentOrder.BuySell=BuySell;
         if (this.state.takeProfitOpen) {
             // Setup related order
             const order = queries.getRelatedOrder('Limit', this.takeProfitPrice, this.currentOrder);
@@ -138,35 +175,47 @@ class Orders extends React.PureComponent {
         }
         queries.postOrder(this.currentOrder, this.props, (response) => {
             this.setState({ responseData: response });
+            ToastAndroid.show('Order placed !! ', ToastAndroid.SHORT);
         });
     }
+
+    roundUptoNDecimals(num, decimal) {
+
+        return Math.round(num * Math.pow(10, decimal)) / Math.pow(10, decimal);
+    }
+    
 
     render() {
         console.log('props in Order', this.props);
         console.log('States in Order', this.state);
+        console.log('CurrentOrder in Order', this.currentOrder);
+
+        const DisplayAndFormat = this.state.instrumentInfo ? this.state.instrumentInfo.DisplayAndFormat : null;
+        const PriceInfo = this.state.instrumentInfo ? this.state.instrumentInfo.PriceInfo : null;
+        const PriceInfoDetails = this.state.instrumentInfo ? this.state.instrumentInfo.PriceInfoDetails : null;
+        const InstrumentPriceDetails = this.state.instrumentInfo ? this.state.instrumentInfo.InstrumentPriceDetails : null;
+        const Quote = this.state.instrumentInfo ? this.state.instrumentInfo.Quote : null;
+        const supportedOrderTypes = this.state.instrumentInfo ? this.state.instrumentInfo.Quote : null;
+        const marketStatus = (InstrumentPriceDetails && InstrumentPriceDetails.IsMarketOpen) ? "Market Open" : "Market Closed"
+        const netChangeColor = (PriceInfo && PriceInfo.NetChange > 0) ? 'green' : 'red'
         const accountTitle = this.state.selectedAccount ? this.state.selectedAccount.AccountId : 'Select Account';
         return (
-            <View style={[Stylesheet.FlexOne, Stylesheet.BlackBg,Stylesheet.AppPaddingX,Stylesheet.AppPaddingTop]}>
-
-                <Error>
-                    Enter correct access token using
-                 </Error>
-                {(this.props.isLoading) && (<ActivityIndicator
-                    animating={true}
-                    color='#4c4cff'
-                    size="large"
-                />)}
-                <Instruments
-                    {...this.props}
-                    onInstrumentSelected={this.handleInstrumentChange.bind(this)}
-                    onOptionRootSelected={this.handleOptionRoot.bind(this)}
-                    onAssetTypeSelected={this.handleAssetTypeChange.bind(this)}
-                >
+            <ScrollView style={{ flex: 1, height: height, width: width }}>
+                <View style={[Stylesheet.FlexOne, Stylesheet.AppPaddingX, Stylesheet.AppPaddingTop, { backgroundColor: '#444', height: height, width: width }]}>
+                     <Root>
+                    <Error>
+                        Enter correct access token
+                    </Error>
+                    {(this.props.isLoading) && (<ActivityIndicator
+                        animating={true}
+                        color="#4c4cff"
+                        size="large"
+                    />)}
 
                     {/* select account dropdown*/}
-                    <View style={[Stylesheet.BoxUnderline,Stylesheet.XCenter,Stylesheet.YCenter,
-                                 { flexDirection: 'row',height:40,padding:0,paddingHorizontal:20,marginTop:5,backgroundColor:'#000' }]}>
-                        <Text style={[Stylesheet.Text12BoldWhite,{ flex: 1 }]}>Select Account </Text>
+                    <View style={[Stylesheet.BoxUnderline, Stylesheet.XCenter, Stylesheet.YCenter,
+                    { flexDirection: 'row', height: 40, padding: 0, paddingHorizontal: 20, marginTop: 5, backgroundColor: '#000' }]}>
+                        <Text style={[Stylesheet.Text12BoldWhite, { flex: 1 }]}>Select Account </Text>
                         <Dropdown
                             promptHeading={accountTitle}
                             handleSelect={this.handleAccountSelect.bind(this)}
@@ -176,16 +225,198 @@ class Orders extends React.PureComponent {
                             id="accounts"
                         />
                     </View>
-                </Instruments>  
 
-            </View>
+                    {(DisplayAndFormat) && <View style={[Stylesheet.searchInstrumentRow, { flexDirection: 'row', backgroundColor: '#000', marginTop: 2 }]}>
+                        <View>
+                            <Text style={Stylesheet.Text12BoldWhite}>{DisplayAndFormat.Description}</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={Stylesheet.searchInstrumentRowMinorText}>{DisplayAndFormat.Symbol}</Text>
+                                <Text style={Stylesheet.searchInstrumentRowMinorText}> . </Text>
+                                <Text style={Stylesheet.searchInstrumentRowMinorText}>{DisplayAndFormat.Currency}</Text>
+                            </View>
+                        </View>
+                        <View>
+                            <Icon name="md-search" />
+                        </View>
+                    </View>}
+
+                    {(PriceInfo && PriceInfoDetails) && <View style={[Stylesheet.searchInstrumentRow, {
+                        flexDirection: 'row',
+                        backgroundColor: '#000', marginTop: 2, justifyContent: 'space-between'
+                    }]}>
+
+                        <View style={[Stylesheet.XCenter, Stylesheet.YCenter]}>
+                            <Text style={Stylesheet.Text12BoldWhite}>{PriceInfoDetails.LastTraded}</Text>
+                            <Text style={Stylesheet.searchInstrumentRowMinorText}> Last Traded </Text>
+                        </View>
+
+                        <View style={[Stylesheet.XCenter, Stylesheet.YCenter]}>
+                            <Text style={[Stylesheet.Text12BoldWhite, { color: netChangeColor }]}>{`${this.roundUptoNDecimals(PriceInfo.NetChange, DisplayAndFormat.Decimals)}/${PriceInfo.PercentChange}%`}</Text>
+                            <Text style={Stylesheet.searchInstrumentRowMinorText}> Today's change </Text>
+                        </View>
+
+                        <View style={[Stylesheet.XCenter, Stylesheet.YCenter]}>
+                            <Text style={Stylesheet.Text12BoldWhite}>{`${PriceInfo.Low}/${PriceInfo.High}`}</Text>
+                            <Text style={Stylesheet.searchInstrumentRowMinorText}> Low / High </Text>
+                        </View>
+
+
+                    </View>}
+
+                    {(InstrumentPriceDetails) && <View style={[Stylesheet.searchInstrumentRow, { flexDirection: 'row', backgroundColor: '#000', marginTop: 2 }]}>
+
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', }}>
+                            <Text style={Stylesheet.searchInstrumentRowMinorText}>{marketStatus}</Text>
+                            <Text style={Stylesheet.searchInstrumentRowMinorText}>{this.state.instrumentInfo.PriceSource}</Text>
+                        </View>
+
+                    </View>}
+
+                    <View style={[Stylesheet.searchInstrumentRow, { flexDirection: 'row', backgroundColor: '#000', marginTop: 2, paddingVertical: 4 }]}>
+
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginRight: 5 }}>
+                            <Text style={Stylesheet.searchInstrumentRowMinorText}>Size</Text>
+                            <Text style={Stylesheet.searchInstrumentRowMinorText}>Bid</Text>
+                        </View>
+
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginLeft: 5 }}>
+                            <Text style={Stylesheet.searchInstrumentRowMinorText}>Ask</Text>
+                            <Text style={Stylesheet.searchInstrumentRowMinorText}>Size</Text>
+                        </View>
+
+                    </View>
+
+                    {(Quote && PriceInfoDetails) && <View style={[Stylesheet.searchInstrumentRow, { flexDirection: 'row', backgroundColor: '#000', marginTop: 1, paddingVertical: 4 }]}>
+
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginRight: 5 }}>
+                            <Text style={Stylesheet.Text12BoldWhite}>{PriceInfoDetails.BidSize}</Text>
+                            <Text style={Stylesheet.Text12BoldWhite}>{this.roundUptoNDecimals(Quote.Bid, DisplayAndFormat.Decimals)}</Text>
+                        </View>
+
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginLeft: 5 }}>
+                            <Text style={Stylesheet.Text12BoldWhite}>{this.roundUptoNDecimals(Quote.Ask, DisplayAndFormat.Decimals)}</Text>
+                            <Text style={Stylesheet.Text12BoldWhite}>{PriceInfoDetails.AskSize}</Text>
+                        </View>
+
+                    </View>}
+
+                    {/*Type & Quantity*/}
+                    {(this.state.supportedOrderTypes.length !== 0) && <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                        <View style={{ backgroundColor: '#888', flex: 1, marginRight: 5 }}>
+                        <Container>
+                            <Root>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        ActionSheet.show(
+                                            {
+                                                options: this.state.supportedOrderTypes,
+                                                title: "Select Order Type",
+
+                                            },
+                                            buttonIndex => {
+                                                this.currentOrder.OrderType = this.state.supportedOrderTypes[buttonIndex];
+                                                this.setState({ updated: !this.state.updated });
+                                            }
+                                        )}>
+                                    <View style={{ paddingHorizontal: 10 }}>
+                                        <Text style={Stylesheet.Text12BoldBlack}>TYPE </Text>
+                                        <Text style={[Stylesheet.Text12BoldWhite, { fontSize: 12 }]}>{this.currentOrder.OrderType} </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </Root>
+                            </Container>
+                        </View>
+
+                        <View style={{ backgroundColor: '#888', flex: 1, marginLeft: 5 }}>
+                            <Text style={Stylesheet.Text12BoldBlack}> QUANTITY </Text>
+                            <TextInput placeholder="Search"
+                                keyboardType="numeric"
+                                placeholderTextColor="#fff"
+                                underlineColorAndroid="transparent"
+                                onChangeText={(text) => {
+                                    this.currentOrder.Amount = text;
+                                    this.setState({ updated: !this.state.updated });
+                                }}
+                                value={this.currentOrder.Amount.toString()}
+                                style={{ color: '#fff', fontFamily: 'roboto', fontWeight: '600', height: 35, marginTop: -10, fontSize: 12 }} />
+                        </View>
+
+
+                    </View>}
+
+                    {/*Duration And price */}
+
+                    {(PriceInfoDetails) && <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                        <View style={{ backgroundColor: '#888', flex: 1, marginRight: 5 }}>
+
+                            <Root>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        ActionSheet.show(
+                                            {
+                                                options: orderDuration,
+                                                title: "Select Order Duration",
+
+                                            },
+                                            buttonIndex => {
+                                                this.currentOrder.OrderDuration.DurationType = orderDuration[buttonIndex];
+                                                this.setState({ updated: !this.state.updated });
+                                            }
+                                        )}>
+                                    <View style={{ paddingHorizontal: 10 }}>
+                                        <Text style={Stylesheet.Text12BoldBlack}>DURATION </Text>
+                                        <Text style={[Stylesheet.Text12BoldWhite, { fontSize: 12 }]}>{this.currentOrder.OrderDuration.DurationType} </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </Root>
+                        </View>
+
+                        <View style={{ backgroundColor: '#888', flex: 1, marginLeft: 5 }}>
+                            <Text style={Stylesheet.Text12BoldBlack}> PRICE </Text>
+                            <TextInput placeholder="Price"
+                                keyboardType="numeric"
+                                placeholderTextColor="#fff"
+                                underlineColorAndroid="transparent"
+                                onChangeText={(text) => {
+                                    this.currentOrder.OrderPrice = text;
+                                    this.setState({ updated: !this.state.updated });
+                                }}
+                                value={this.currentOrder.OrderPrice.toString()}
+                                style={{ color: '#fff', fontFamily: 'roboto', fontWeight: '600', height: 35, marginTop: -10, fontSize: 12 }} />
+                        </View>
+
+
+                    </View>}
+
+                    {/*BUY & SELL BUTTON*/}
+                    <View style={{ width: width, height: 40, flexDirection: 'row', marginTop: 10 , paddingRight: 40}}>
+
+                        <Button block light
+                                style={{flex:1,backgroundColor:'#c30101',marginRight:5,height:30}}
+                                onPress={() => this.handlePlaceOrder("sell")}>
+                            <Text style={[Stylesheet.Text12BoldWhite, { fontSize: 12, fontWeight:'700'}]}>SELL</Text>
+                        </Button> 
+
+                        <Button block light
+                         style={{flex:1,backgroundColor:'#1E90FF',marginLeft:5,height:30}}
+                         onPress={()=>this.handlePlaceOrder("buy")}>
+                            <Text style={[Stylesheet.Text12BoldWhite, { fontSize: 12, fontWeight:'700' }]} >BUY</Text>
+                        </Button> 
+                       
+                    </View>
+                     </Root>
+                </View>
+            </ScrollView>
         );
     }
 }
 
-Orders.propTypes = { match: object };
+Orders.propTypes = {
+     match: object ,
+    instrument : object,
+};
 
 Orders.defaultProps = { match: {} };
 
 //export default bindHandlers(Orders);
-export default Orders
+export default Orders;

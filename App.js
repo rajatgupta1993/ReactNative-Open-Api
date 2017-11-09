@@ -7,6 +7,7 @@ import {
   Text,
   View
 } from 'react-native';
+import Stylesheet from './src/styles/Stylesheet';
 
 import RootNavigator from './src/js/modules/app/rootNavigator'
 import Loader from './src/js/modules/loader'
@@ -15,7 +16,7 @@ export default class App extends Component {
   render() {
    
     return (
-      <View style={{ flex: 1 }} >
+      <View style={[Stylesheet.FlexOne, { flex: 1 }]} >
         <RootNavigator/>
       
       </View>

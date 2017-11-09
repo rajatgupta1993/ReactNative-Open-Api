@@ -6,54 +6,15 @@ import {
     View,
     Button,
 } from 'react-native';
+import Stylesheet from '../../../styles/Stylesheet';
 
 export default class Home extends Component {
-
-    constructor() {
-        super();
-        console.log("construc");
-    }
-
-
-    onButtonPressed() {
-        console.log("5");
-    }
-
-    componentWillMount() {
-        console.log("willMount");
-    }
-
-    componentDidMount() {
-        console.log("didMount");
-    }
-
-    shouldComponentUpdate() {
-        console.log("should");
-        return true;
-    }
-
-    componentWillReceiveProps(){
-        console.log("recv props");
-    }
-
-    componentWillUpdate(){
-        console.log("willUpdate");
-    }
-
-    componentDidUpdate(){
-        console.log("didUpdate");
-    }
-
-    componentWillUnmount(){
-            console.log("WillUnMount");
-    }
-
-
 
     render() {
         return (
 
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+            <View style={[Stylesheet.FlexOne, Stylesheet.YCenter, Stylesheet.XCenter, { flex: 1, 
+            justifyContent: 'center', alignItems: 'center' }]} >
                 <Button style={{}}
                     title="Enter Access Token"
                     onPress={() => this.props.navigation.navigate('AddToken')} />
@@ -62,6 +23,6 @@ export default class Home extends Component {
                     title="Orders"
                     onPress={() => this.props.navigation.navigate('SearchInstrument')} />
             </View>
-        )
+        );
     }
 }

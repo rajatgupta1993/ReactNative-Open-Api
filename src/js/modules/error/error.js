@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Picker, StyleSheet,Button } from 'react-native'
 import { bool, func, string } from 'prop-types';
-import Stylesheet from '../../../styles/Stylesheet'
+import Stylesheet from '../../../styles/Stylesheet';
 
 class Error extends React.PureComponent {
     constructor(props) {
@@ -14,7 +14,7 @@ class Error extends React.PureComponent {
         return (
          <View >
                { (this.props.showError) && (
-                   <Text style={{color:'red', fontSize:16,marginBottom:5}} > { this.props.errMessage || this.props.children} </Text>)}
+                   <Text style={[Stylesheet.error,{color:'red', fontSize:16,marginBottom:5}]} > { this.props.errMessage || this.props.children} </Text>)}
             </View>
         );
     }

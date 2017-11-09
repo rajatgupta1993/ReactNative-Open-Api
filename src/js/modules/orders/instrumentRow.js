@@ -6,19 +6,24 @@ import {
     View,
     Button,
     TextInput,
-    ActivityIndicator
+    ActivityIndicator,
+    TouchableOpacity
 } from 'react-native';
 
-import Stylesheet from '../../../styles/Stylesheet'
+import Stylesheet from '../../../styles/Stylesheet';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+
 
 function instrumentRow(props) {
     const generateTable = (data) => _.map(data, (value, key) => {
         let assetType= (value.AssetType === "CfdOnStock")? "CFD" : value.AssetType;
-        
+        let object = {instrument: value,...props};
+        // console.log('object', object);
+        // console.log("props in intrument row",props)
             return (
-                <View key ={key} style={Stylesheet.searchInstrumentRow}>
+                <TouchableOpacity key ={key} style={Stylesheet.searchInstrumentRow}
+                        onPress={() => props.navigation.navigate('Orders',{...object})}>
                     <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                          <Text style= {Stylesheet.Text12BoldWhite} >{value.Description}</Text>
                           <Text style= {Stylesheet.searchInstrumentRowMinorText} >{assetType}</Text>
@@ -28,7 +33,7 @@ function instrumentRow(props) {
                           <Text style= {Stylesheet.searchInstrumentRowMinorText} >{value.ExchangeName} </Text>
                     </View>
                    
-                </View>   
+                </TouchableOpacity>   
             );
         
     });

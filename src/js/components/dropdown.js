@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 function Dropdown({ data, title, id, itemKey, value, handleSelect,promptHeading }) {
-    debugger;
+   
     return (
 
         <Picker

@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
 
-     BlackBg: {
+    BlackBg: {
         backgroundColor: '#343434'
     },
 
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 
     Text12BoldBlack : {
         fontSize:12,
-        fontWeight:'500',
+        fontWeight:'600',
         color:'#000',
         fontFamily:'roboto'
     },
@@ -87,10 +87,23 @@ const styles = StyleSheet.create({
     searchInstrumentRowMinorText: {
         color:'#AAA',
         fontSize:11,
+        fontWeight:'500',
         fontFamily:'roboto',
+    },
+    
+    tradeInstrumentRow: {
+        height:40,
+        padding:0,
+        paddingHorizontal:20,
+        flexDirection: 'row',
+        marginBottom: 5,
+    },
+
+    error: {
+        color:'red',
+        fontSize:16,
+        marginBottom:5,
     }
-
-
 
 })
 

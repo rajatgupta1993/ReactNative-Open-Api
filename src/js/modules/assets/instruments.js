@@ -5,7 +5,7 @@ import * as allAssetTypes from '../../data/allAssetTypes.json';
 import { checkIfOption } from '../../utils/global';
 import Dropdown from '../../components/dropdown';
 import { fetchInstruments, fetchInstrumentDetails } from './queries';
-import Stylesheet from '../../../styles/Stylesheet'
+import Stylesheet from '../../../styles/Stylesheet';
 
 class Instruments extends React.PureComponent {
     constructor() {
@@ -61,8 +61,9 @@ class Instruments extends React.PureComponent {
         const { assetTypeTitle, instruments, title, dropDownTitle } = this.state;
         return (
             <View>
-                <View style={[Stylesheet.BoxUnderline, Stylesheet.XCenter, Stylesheet.YCenter,
-                             {height:40, padding:0,paddingHorizontal:20,flexDirection: 'row',backgroundColor:'#000' }]}>
+                <View style={[Stylesheet.BoxUnderline, Stylesheet.XCenter, Stylesheet.YCenter, Stylesheet.tradeInstrumentRow,
+                             StyleSheet.BlackBg,{height:40, padding:0,paddingHorizontal:20,flexDirection: 'row',
+                             backgroundColor:'#000' }]}>
                     <Text style={[Stylesheet.Text12BoldWhite,{ flex: 1 }]}>Select Asset Type </Text>
                     <Dropdown
                         data={assetTypes || allAssetTypes.data}
@@ -76,7 +77,8 @@ class Instruments extends React.PureComponent {
                 {
                     (instruments) && (instruments.length !== 0) &&
                     <View style={[Stylesheet.BoxUnderline, Stylesheet.XCenter, Stylesheet.YCenter,
-                                { height:40,padding:0,paddingHorizontal:20,flexDirection: 'row',marginTop:5,backgroundColor:'#000'}]}>
+                                Stylesheet.tradeInstrumentRow, StyleSheet.BlackBg, { height:40,padding:0,paddingHorizontal:20,
+                                flexDirection: 'row',marginTop:5,backgroundColor:'#000'}]}>
                         <Text style={[Stylesheet.Text12BoldWhite,{ flex: 1 }]}>{dropDownTitle} </Text>
                         <Dropdown
                             data={instruments}

@@ -10,12 +10,12 @@ import {
 } from 'react-native';
 
 // import DetailsHeader from 'src/js/components/detailsHeader';
- import { object, string, func } from 'prop-types';
+ import { object, string, func,bool } from 'prop-types';
 // import DataTable from 'src/js/components/dataTable';
  import Error from '../error';
-import Stylesheet from '../../../styles/Stylesheet'
-import DataTable from '../../components/dataTable'
-import ActivityIndicator from '../../components/activityIndicator'
+import Stylesheet from '../../../styles/Stylesheet';
+import DataTable from '../../components/dataTable';
+import ActivityIndicator from '../../components/activityIndicator';
 
 class UserInfo extends React.PureComponent {
     constructor(props) {
@@ -36,9 +36,8 @@ class UserInfo extends React.PureComponent {
     }
 
     render() {
-        const { userData, store, isLoading } = this.props;
-        console.log(store);
-        console.log(isLoading);
+        const { userData,  isLoading } = this.props;
+       
         return (
             <ScrollView style={[Stylesheet.FlexOne, Stylesheet.WhiteBg]}>
              <View style={[Stylesheet.AppPaddingX, Stylesheet.AppPaddingTop, Stylesheet.FlexOne]}>
@@ -48,7 +47,7 @@ class UserInfo extends React.PureComponent {
                    </Error>
                 {(isLoading)? ( <ActivityIndicator
                     animating={true}
-                    color='#4c4cff'
+                    color="#4c4cff"
                     size="large"
                       />) :(
                         <View style={[Stylesheet.BoxUnderline]}>
@@ -85,6 +84,7 @@ UserInfo.propTypes = {
     accessToken: string,
     userData: object,
     getUserDetails: func.isRequired,
+    isLoading : bool,
 };
 
 // UserInfo.defaultProps = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, Dimensions, } from 'react-native';
 import { Container, Header, Item, Input, Icon, Button, } from 'native-base';
 import * as queries from './queries';
 import { object } from 'prop-types';
@@ -10,7 +10,7 @@ import InstrumentRow from './instrumentRow';
 const { width, height } = Dimensions.get('window');
 
 
-class searchInstrument extends React.PureComponent {
+class searchInstrument extends React.Component {
 
     constructor(props) {
         super(props);
@@ -33,8 +33,6 @@ class searchInstrument extends React.PureComponent {
                 })
             });
         }
-
-
 
     }
 
@@ -65,6 +63,7 @@ class searchInstrument extends React.PureComponent {
                         <ScrollView style={{ flex: 1 }}>
                             {(this.state.instrumentSearchResult.length !== 0) ? (<View style={{ flex: 1 }}>
                                 <InstrumentRow
+                                     {...this.props}
                                     data={this.state.instrumentSearchResult} />
                             </View>) :
                                 (<View style={{height:height-60, flex: 1 ,backgroundColor:'#444',justifyContent:'center', alignItems:'center'}}>
