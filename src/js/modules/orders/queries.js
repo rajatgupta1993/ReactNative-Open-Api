@@ -34,18 +34,14 @@ export function getAskBidFormData(instrumentInfo, currentOrder) {
 }
 
 export function getBuySellFormData(currentOrder) {
-    return [{
-        label: 'BuySell',
-        value: ['Buy', 'Sell'],
-        componentClass: 'select',
-    },
+    return [
     {
-        label: 'OrderPrice',
+        label: 'PRICE',
         value: currentOrder.OrderPrice,
         componentClass: 'text',
     },
     {
-        label: 'OrderAmount',
+        label: 'QUANTITY',
         value: currentOrder.Amount,
         componentClass: 'text',
     },
@@ -54,14 +50,16 @@ export function getBuySellFormData(currentOrder) {
 
 export function orderTypeDurationFormData(supportedOrderTypes) {
     return [{
-        label: 'OrderType',
+        label: 'TYPE',
         value: supportedOrderTypes,
         componentClass: 'select',
+        heading: "Select Order Type"
     },
     {
-        label: 'OrderDuration',
-        value: ['DayOrder', 'GoodTillCancel', 'ImmediateOrCancel'],
+        label: 'DURATION',
+        value: ['Day Order', 'Good Till Cancel', 'Immediate Or Cancel'],
         componentClass: 'select',
+        heading: "Select Order Duration"
     },
     ];
 }
