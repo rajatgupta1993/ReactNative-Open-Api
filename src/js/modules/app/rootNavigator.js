@@ -1,8 +1,10 @@
 import { StackNavigator } from 'react-navigation';
-import UserInfo from '../userInfo/index';
-import OrdersContainer from '../orders/ordersContainer';
-import SearchInstrument from '../orders/index';
 import Home from '../home/home';
+import UserInfo from '../userInfo/index';
+import TradeContainer from '../trade/tradeContainer';
+import SearchInstrument from '../trade/index';
+import OrderAndPosition from '../orderAndPosition';
+
 
 const RootNavigator = StackNavigator({    
 
@@ -21,7 +23,7 @@ const RootNavigator = StackNavigator({
     },
 
     Orders : {
-        screen : OrdersContainer,
+        screen : TradeContainer,
          navigationOptions: {
             headerTitle: 'Orders',
         },
@@ -31,6 +33,13 @@ const RootNavigator = StackNavigator({
         screen : SearchInstrument,
          navigationOptions: {
             headerTitle: 'Search Instrument',
+        },
+    },
+
+     OrderAndPosition :{
+        screen : OrderAndPosition,
+         navigationOptions: {
+            headerTitle: 'Order And Position',
         },
     },
 
