@@ -21,7 +21,7 @@ export default class Home extends Component {
                 <View style={{ height: 20, }}></View>
                 <Button style={{ marginTop: 20, padding: 5 }}
                     title="Orders"
-                    onPress={() => this.props.navigation.navigate('SearchInstrument')} />
+                    onPress={() => this.props.navigation.navigate('OrderAndPosition')} />
             </View>
         );
     }
