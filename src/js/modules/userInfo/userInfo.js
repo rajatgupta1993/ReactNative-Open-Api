@@ -39,7 +39,7 @@ class UserInfo extends React.PureComponent {
         const { userData,  isLoading } = this.props;
        
         return (
-            <ScrollView style={[Stylesheet.FlexOne, Stylesheet.WhiteBg]}>
+            <ScrollView style={[Stylesheet.FlexOne, Stylesheet.WhiteBg,{backgroundColor:'#444'}]}>
              <View style={[Stylesheet.AppPaddingX, Stylesheet.AppPaddingTop, Stylesheet.FlexOne]}>
 
                   <Error>
@@ -50,24 +50,26 @@ class UserInfo extends React.PureComponent {
                     color="#4c4cff"
                     size="large"
                       />) :(
-                        <View style={[Stylesheet.BoxUnderline]}>
+                        <View style={[Stylesheet.BoxUnderline,{borderColor:'#111'}]}>
                             <Text style={Stylesheet.h3}>Set Access Token </Text>
                             <TextInput
-                                style={{ height: 40, marginBottom: 20, marginTop: 10 }}
+                                style={{ height: 40, marginBottom: 20, marginTop: 10 ,color:'#fff'}}
                                 multiline={true}
                                 //autoGrow={true}
                                 selectTextOnFocus={true}
                                 placeholder="Paste authorization token here"
+                                placeholderTextColor="#fff"
                                 onChangeText={this.handleTokenChng}
                                 value={this.state.accessToken} />
 
                             <Button style={{}}
                                 title="Submit"
+                                 color='#222'
                                 onPress={this.handleFormSubmit.bind(this)} />
                         </View> )}
 
                         {(userData != null && userData.ClientKey != null) && (
-                            <View style={[Stylesheet.BoxUnderline, { marginTop: 20,height:400}]}>
+                            <View style={[Stylesheet.BoxUnderline, { marginTop: 20,height:400,borderColor:'#111'}]}>
                                 <DataTable data={userData}/>
                             </View>)}
                             

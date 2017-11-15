@@ -5,9 +5,10 @@ import Trade from './trade';
 // like introduction, ref, portfolio and other, so store is attached here and
 // passed down as props to other modules
 const mapStateToProps = (store, props) => {
-   // console.log('props in test4', props);
+  
     return {
-        ...props.navigation.state.params
+        ...props.navigation.state.params,
+        isLoading:store.loader.isLoading,
     };
 };
 

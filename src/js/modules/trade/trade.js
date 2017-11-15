@@ -12,7 +12,7 @@ import ActivityIndicator from '../../components/activityIndicator';
 import Stylesheet from '../../../styles/Stylesheet';
 import { fetchInstrumentDetails } from '../assets/queries';
 let orderDuration = ['DayOrder', 'GoodTillCancel', 'ImmediateOrCancel'];
-const { width, height } = Dimensions.get('window');
+const { deviceWidth, deviceHeight } = Dimensions.get('window');
 
 class Orders extends React.PureComponent {
     constructor(props) {
@@ -225,17 +225,18 @@ class Orders extends React.PureComponent {
         const netChangeColor = (PriceInfo && PriceInfo.NetChange > 0) ? 'green' : 'red'
         const accountTitle = this.state.selectedAccount ? this.state.selectedAccount.AccountId : 'Select Account';
         return (
-            <ScrollView style={{ flex: 1, height: height, width: width }}>
-                <View style={[Stylesheet.FlexOne, Stylesheet.AppPaddingX, Stylesheet.AppPaddingTop, { backgroundColor: '#444', height: height, width: width }]}>
+            <ScrollView style={{ flex: 1, height: deviceHeight, width: deviceWidth, backgroundColor: '#444',}}>
+                <View style={[Stylesheet.FlexOne, Stylesheet.AppPaddingX, Stylesheet.AppPaddingTop, {  height: deviceHeight, width: deviceWidth }]}>
                     <Root>
                         <Error>
                             Enter correct access token
                     </Error>
-                        {(isLoading) && (<ActivityIndicator
+                        {(isLoading) && (<View style={{width:deviceWidth, height: deviceHeight,flex:1}}><ActivityIndicator
                             animating={true}
-                            color="#4c4cff"
+                            color="#1E90FF"
                             size="large"
-                        />)}
+                        />
+                        </View>)}
 
                         {/* select account dropdown*/}
                         <View style={[Stylesheet.BoxUnderline, Stylesheet.XCenter, Stylesheet.YCenter,
@@ -287,7 +288,8 @@ class Orders extends React.PureComponent {
                         {/*Market Status */}
                         {(InstrumentPriceDetails) && <StockInfoRows length="2"
                             data1={marketStatus}
-                            data2={this.state.instrumentInfo.PriceSource} />}
+                            data2={this.state.instrumentInfo.PriceSource} 
+                            text/>}
 
                         {/*Bid & Ask size*/}
                        
@@ -355,7 +357,7 @@ class Orders extends React.PureComponent {
 
 
                         {/*BUY & SELL BUTTON*/}
-                        <View style={{ width: width, height: 40, flexDirection: 'row', marginTop: 10, paddingRight: 40 }}>
+                        <View style={{ width: deviceWidth, height: 30, flexDirection: 'row', marginTop: 10}}>
 
                             <Button block light
                                 style={{ flex: 1, backgroundColor: '#c30101', marginRight: 5, height: 30 }}

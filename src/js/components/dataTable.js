@@ -19,14 +19,14 @@ function DataTable(props) {
             return (
                 <View flexWrap={'wrap'}
                     style={{ flex: 1, flexDirection: 'row',  justifyContent:'space-between'}} key={key}>
-                    <Text style={{ flex: 3.5, }}
+                    <Text style={{ flex: 3.5, color:'#fff' }}
                         numberOfLines={5}
                         flexWrap={'wrap'}
                         ellipsizeMode={'tail'}
                         overflow={'visible'}>{key}</Text>
-                        <View style={{width:1, backgroundColor:'#567657',marginVertical:-20}}></View>
+                        <View style={{width:1, backgroundColor:'#111',marginVertical:-16}}></View>
                         <View style={{flex:1}}/>
-                    <Text style={{ flex: 5.5, }}
+                    <Text style={{ flex: 5.5, color:'#fff' , }}
                         numberOfLines={5}
                         flexWrap={'wrap'}
                       

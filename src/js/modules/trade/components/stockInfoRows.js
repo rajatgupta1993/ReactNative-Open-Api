@@ -25,7 +25,7 @@ function stockInfoForTwoData(props) {
         <View style={[Stylesheet.searchInstrumentRow, { flexDirection: 'row', backgroundColor: '#000', marginTop: 2 }]}>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', }}>
                 <Text style={Stylesheet.searchInstrumentRowMinorText}>{props.data1}</Text>
-                <Text style={Stylesheet.searchInstrumentRowMinorText}>{props.data2}</Text>
+                <Text style={[props.text?Stylesheet.Text12BoldWhite :Stylesheet.searchInstrumentRowMinorText,{fontSize:11}]}>{props.data2}</Text>
             </View>
         </View>
     );

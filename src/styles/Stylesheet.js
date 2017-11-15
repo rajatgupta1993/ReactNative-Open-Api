@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     h3: {
         fontSize: 18,
         fontWeight: '700',
-        color: '#333',
+        color: '#fff',
     },
 
     ActivityIndicator: {

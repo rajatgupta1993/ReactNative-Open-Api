@@ -37,8 +37,10 @@ class searchInstrument extends React.Component {
     render() {
         return (
 
-            <Container style={{ flex: 1 }}>
-
+            <Container style={{ flex: 1,backgroundColor:'#444' }}>
+                  <Error>
+                            Enter correct access token
+                    </Error>
                 <View style={{ backgroundColor: '#888', padding: 10 }}>
                     <Item style={{ backgroundColor: '#444', paddingHorizontal: 5 }}>
                         <Icon name="ios-search" />
@@ -54,7 +56,7 @@ class searchInstrument extends React.Component {
                 {(this.props.isLoading) ? (
                     <ActivityIndicator
                         animating={true}
-                        color='#4c4cff'
+                        color='#1E90FF'
                         size="large"
                     />) : (
                         <ScrollView style={{ flex: 1 }}>
