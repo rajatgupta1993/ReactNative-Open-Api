@@ -47,7 +47,18 @@ export default class OrderAndPosition extends Component {
                         fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}/>
           </Tab>
           <Tab heading="Positions">
-            <PositionTab />
+            <PositionTab {...this.props}
+                        currentAccountInformation={accounts[0]}
+                        tradeType="NetPosition"
+                        fieldGroups={['NetPositionView',
+                            'NetPositionBase',
+                            'DisplayAndFormat',
+                            'ExchangeInfo',
+                            'SingleAndClosedPositionsBase',
+                            'SingleAndClosedPositionsView',
+                            'SingleAndClosedPositions'
+                        ]}
+            />
           </Tab>
         </Tabs>
       </Container>) : null
