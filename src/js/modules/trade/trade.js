@@ -11,6 +11,7 @@ import { checkIfOption } from '../../utils/global';
 import ActivityIndicator from '../../components/activityIndicator';
 import Stylesheet from '../../../styles/Stylesheet';
 import { fetchInstrumentDetails } from '../assets/queries';
+import Loader from './../loader/index';
 let orderDuration = ['DayOrder', 'GoodTillCancel', 'ImmediateOrCancel'];
 const { deviceWidth, deviceHeight } = Dimensions.get('window');
 
@@ -213,7 +214,7 @@ class Orders extends React.PureComponent {
     }
 
     render() {
-       
+        console.log("props in Trade ", this.props );
         const { instrument,isLoading } = this.props;
         let assetType = (instrument && instrument.AssetType === "CfdOnStock") ? "CFD" : instrument.AssetType;
         const DisplayAndFormat = this.state.instrumentInfo ? this.state.instrumentInfo.DisplayAndFormat : null;
@@ -265,8 +266,9 @@ class Orders extends React.PureComponent {
                                     <Text style={Stylesheet.searchInstrumentRowMinorText}>{DisplayAndFormat.Currency}</Text>
                                 </View>
                             </View>
-                            <View>
-                                <Icon name="md-search" />
+                            <View style={{paddingHorizontal:10,}}>
+                                <Icon name="md-search"  style={{fontSize:18, color:'#fff'}}
+                                      onPress={() =>this.props.navigation.goBack('')}/>
                             </View>
                         </View>}
 

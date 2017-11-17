@@ -31,7 +31,7 @@ const home = StackNavigator({
     },
 });
 
-const AddToken = StackNavigator({
+const addToken = StackNavigator({
        AddToken: {
         screen: UserInfo,
           navigationOptions: ({ navigation }) => ({
@@ -51,11 +51,11 @@ const AddToken = StackNavigator({
 });
 
 
-const Trade = StackNavigator({
-     Orders : {
-        screen : TradeContainer,
+const orderAndPosition = StackNavigator({
+     OrderAndPosition : {
+        screen : OrderAndPosition,
          navigationOptions: ({ navigation }) => ({
-            headerTitle: 'Trade',
+            headerTitle: 'Order & Position',
             headerRight: <Icon name="menu" size={35}
                                 style={{padding:10,color:'white'}}
                                onPress={ () => navigation.navigate('DrawerOpen') } />,
@@ -71,9 +71,10 @@ const Trade = StackNavigator({
 });
 
 const searchInstrument = StackNavigator({
-     Orders : {
+
+     SearchInstrument :{
         screen : SearchInstrument,
-         navigationOptions: ({ navigation }) => ({
+       navigationOptions: ({ navigation }) => ({
             headerTitle: 'Search Instrument',
             headerRight: <Icon name="menu" size={35}
                                 style={{padding:10,color:'white'}}
@@ -87,9 +88,27 @@ const searchInstrument = StackNavigator({
          
         }),
     },
-});
 
-const RootNavigator = StackNavigator({    
+     TradeScreen : {
+        screen : TradeContainer,
+         navigationOptions: ({ navigation }) => ({
+            headerTitle: 'Trade',
+            headerRight: <Icon name="menu" size={35}
+                                style={{padding:10,color:'white'}}
+                               onPress={ () => navigation.navigate('DrawerOpen') } />,
+            headerStyle: {
+                backgroundColor: 'rgba(60,60,60,1)'
+            },
+            headerTitleStyle : {
+                color:'#fff'
+            },
+         
+        }),
+    },
+
+     
+});
+ /*export const RootNavigator = StackNavigator({    
 
     Home: {
         screen: Home,
@@ -160,17 +179,20 @@ const RootNavigator = StackNavigator({
         },
     },
 },
-);
+);*/
 
 const mainDrawerRoutes ={
     Home: {
         screen:home
     },
     AddToken: {
-        screen : AddToken
+        screen : addToken
     },
-   SearchInstrument: {
+   Trade: {
         screen : searchInstrument
+    },
+    OrderAndPosition :{
+        screen : orderAndPosition
     }
 }
 
@@ -178,4 +200,4 @@ export const AppNavigator = DrawerNavigator({...mainDrawerRoutes}, {
   drawerPosition :'right',
   drawerWidth: 0.7*width,
 });
-export default AppNavigator;
+  export default AppNavigator;

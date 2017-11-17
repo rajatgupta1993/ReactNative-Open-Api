@@ -5,12 +5,16 @@ import {
     Text,
     View,
     Button,
+    ActivityIndicator,
+    Dimensions,
     ScrollView
 } from 'react-native';
 import * as queries from './queries';
 import Stylesheet from '../../../styles/Stylesheet';
 import { TRADE_TYPE } from '../../utils/constants';
 import _ from 'lodash';
+
+const { deviceWidth, deviceHeight } = Dimensions.get('window');
 
 export default class OrdersTab extends Component {
      constructor(props) {
@@ -90,11 +94,11 @@ export default class OrdersTab extends Component {
     render() {
 
         console.log("data in orders tab",this.trades);
+        console.log(new Date().getTime(),this.props.isLoading);
         return (
 
             <View style={[Stylesheet.FlexOne,{backgroundColor:'#444',}]} >
-              {
-                    !_.isEmpty(this.trades) &&
+             
                        <View style={{backgroundColor:'#444'}}>
 
                             <View style={{flexDirection:'row',paddingHorizontal:15,paddingVertical:7, borderWidth:.5,borderColor:'#000'}}>
@@ -113,7 +117,14 @@ export default class OrdersTab extends Component {
                                     <Text style={Stylesheet.searchInstrumentRowMinorText}>Limit</Text>
                                 </View>
                             </View>
-                            <ScrollView>
+                             {(this.props.isLoading) && (<ActivityIndicator
+                            animating={true}
+                            color="#1E90FF"
+                            size="large"
+                        />
+                        )}
+                         <ScrollView >
+                        
                           {  _.map(this.trades,(value, key) =>{
                               console.log(value);
 
@@ -145,7 +156,7 @@ export default class OrdersTab extends Component {
 
                        </View>
 
-                }
+                
             </View>
         );
     }

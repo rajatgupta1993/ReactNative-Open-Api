@@ -23,7 +23,7 @@ function instrumentRow(props) {
         // console.log("props in intrument row",props)
             return (
                 <TouchableOpacity key ={key} style={Stylesheet.searchInstrumentRow}
-                        onPress={() => props.navigation.navigate('Orders',{...object})}>
+                        onPress={() => props.navigation.navigate('TradeScreen',{...object})}>
                     <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                          <Text style= {Stylesheet.Text12BoldWhite} >{value.Description}</Text>
                           <Text style= {Stylesheet.searchInstrumentRowMinorText} >{assetType}</Text>

@@ -23,7 +23,7 @@ export default class Home extends Component {
                 <Button style={{ marginTop: 20, padding: 5 }}
                     title="Orders"
                       color='#222'
-                    onPress={() => this.props.navigation.navigate('SearchInstrument')} />
+                    onPress={() => this.props.navigation.navigate('Trade')} />
             </View>
         );
     }
