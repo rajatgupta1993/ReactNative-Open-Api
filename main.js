@@ -25,7 +25,7 @@ const reducer = combineReducers({
 const store = createStore(reducer, applyMiddleware(thunk));
 export default class Main extends Component {
   render() {
-    
+    console.log('Mterwa');
     return (
       <Provider store={store}>
         <App/>
