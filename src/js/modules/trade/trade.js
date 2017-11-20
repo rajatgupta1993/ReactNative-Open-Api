@@ -7,11 +7,10 @@ import Error from '../error';
 import Dropdown from '../../components/dropdown';
 import UserInputs from './components/userInputs';
 import StockInfoRows from './components/stockInfoRows'
-import { checkIfOption } from '../../utils/global';
+import { checkIfOption,roundUptoNDecimals } from '../../utils/global';
 import ActivityIndicator from '../../components/activityIndicator';
 import Stylesheet from '../../../styles/Stylesheet';
 import { fetchInstrumentDetails } from '../assets/queries';
-import Loader from './../loader/index';
 let orderDuration = ['DayOrder', 'GoodTillCancel', 'ImmediateOrCancel'];
 const { deviceWidth, deviceHeight } = Dimensions.get('window');
 
@@ -71,7 +70,7 @@ class Orders extends React.PureComponent {
         this.handleOptionRoot = this.handleOptionRoot.bind(this);
         this.handleAccountSelect = this.handleAccountSelect.bind(this);
         this.handlePlaceOrder = this.handlePlaceOrder.bind(this);
-        this.roundUptoNDecimals = this.roundUptoNDecimals.bind(this);
+     //   this.roundUptoNDecimals = this.roundUptoNDecimals.bind(this);
         this.showAlert = this.showAlert.bind(this);
     }
 
@@ -177,9 +176,9 @@ class Orders extends React.PureComponent {
         });
     }
 
-    roundUptoNDecimals(num, decimal) {
-        return Math.round(num * Math.pow(10, decimal)) / Math.pow(10, decimal);
-    }
+    // roundUptoNDecimals(num, decimal) {
+    //     return Math.round(num * Math.pow(10, decimal)) / Math.pow(10, decimal);
+    // }
     handleOrderDurationChange(buttonIndex) {
         this.currentOrder.OrderDuration.DurationType = orderDuration[buttonIndex];
         this.setState({
@@ -276,7 +275,7 @@ class Orders extends React.PureComponent {
                         {(PriceInfo && PriceInfoDetails) && <View style={{ marginTop: 2 }}>
                             <StockInfoRows length="3"
                                 data1={PriceInfoDetails.LastTraded}
-                                data2={`${this.roundUptoNDecimals(PriceInfo.NetChange, DisplayAndFormat.Decimals)}/${PriceInfo.PercentChange}%`}
+                                data2={`${roundUptoNDecimals(PriceInfo.NetChange, DisplayAndFormat.Decimals)}/${PriceInfo.PercentChange}%`}
                                 data3={`${PriceInfo.Low}/${PriceInfo.High}`}
                                 netChangeColor={netChangeColor} />
                             <StockInfoRows length="3"
@@ -305,8 +304,8 @@ class Orders extends React.PureComponent {
 
                             <StockInfoRows length="4"
                                 data1={PriceInfoDetails.BidSize}
-                                data2={this.roundUptoNDecimals(Quote.Bid, DisplayAndFormat.Decimals)}
-                                data3={this.roundUptoNDecimals(Quote.Ask, DisplayAndFormat.Decimals)}
+                                data2={roundUptoNDecimals(Quote.Bid, DisplayAndFormat.Decimals)}
+                                data3={roundUptoNDecimals(Quote.Ask, DisplayAndFormat.Decimals)}
                                 data4={PriceInfoDetails.AskSize}
                                 text={false}/>
                         </View>

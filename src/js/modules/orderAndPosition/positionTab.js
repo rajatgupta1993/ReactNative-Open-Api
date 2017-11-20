@@ -10,6 +10,7 @@ import {
 import * as queries from './queries';
 import Stylesheet from '../../../styles/Stylesheet';
 import { TRADE_TYPE } from '../../utils/constants';
+import {roundUptoNDecimals} from '../../utils/global';
 import _ from 'lodash';
 
 export default class PositionTab extends Component {
@@ -168,19 +169,21 @@ export default class PositionTab extends Component {
                               return (
                                 value &&  <View key={key} style={{flexDirection:'row',paddingHorizontal:15,paddingVertical:7, borderBottomWidth:.5,borderBottomColor:'#000'}}>
                                     <View style={{flex:6}}>
-                                        <Text style={Stylesheet.Text12BoldWhite}>{value.NetPositionId}</Text>
+                                        <Text style={Stylesheet.Text12BoldWhite}>{value.DisplayAndFormat.Description}</Text>
                                         <View style={{flexDirection:'row'}}>
                                             <Text style={Stylesheet.searchInstrumentRowMinorText}>{value.NetPositionBase.Amount}</Text>
                                             <Text style={Stylesheet.searchInstrumentRowMinorText}>{` ${value.NetPositionView.Status}`}</Text>
                                         </View>
                                     </View>
+                                    
 
                                     <View style={{flex:2}}>
                                         <Text style={[Stylesheet.Text12BoldWhite, {color: value.NetPositionView.ProfitLossOnTrade > 0 ? 'green' : 'red'}]}>
-                                            {value.NetPositionView.ProfitLossOnTrade}
+                                            {roundUptoNDecimals(value.NetPositionView.ProfitLossOnTrade + value.NetPositionView.TradeCostsTotal,0)}
+                                            {` ${value.DisplayAndFormat.Currency}`}
                                         </Text>
                                         <Text style={[Stylesheet.searchInstrumentRowMinorText, {color: value.NetPositionView.ProfitLossOnTradeInBaseCurrency > 0 ? 'green' : 'red'}]}>
-                                            {value.NetPositionView.ProfitLossOnTradeInBaseCurrency}
+                                            {roundUptoNDecimals(value.NetPositionView.ProfitLossOnTradeInBaseCurrency + value.NetPositionView.TradeCostsTotalInBaseCurrency,0)}
                                         </Text>
                                     </View>
 

@@ -6,11 +6,8 @@ import UserInfo from '../userInfo/index';
 import TradeContainer from '../trade/tradeContainer';
 import SearchInstrument from '../trade/index';
 import OrderAndPosition from '../orderAndPosition';
-import Test1 from '../../components/test1';
-import Test2 from '../../components/test2';
 import { Icon, } from 'native-base';
 const { width, height } = Dimensions.get('window');
-
 
 const home = StackNavigator({
      Home: {
@@ -108,79 +105,7 @@ const searchInstrument = StackNavigator({
 
      
 });
- /*export const RootNavigator = StackNavigator({    
-
-    Home: {
-        screen: Home,
-        navigationOptions: ({ navigation }) => ({
-            headerTitle: 'Home Page',
-            headerRight: <Icon name="menu" size={35}
-                                style={{padding:10,color:'white'}}
-                               onPress={ () => navigation.navigate('DrawerOpen') } />,
-            headerStyle: {
-                backgroundColor: 'rgba(60,60,60,1)'
-            },
-            headerTitleStyle : {
-                color:'#fff'
-            },
-         
-        }),
-    },
-
-    AddToken: {
-        screen: UserInfo,
-        navigationOptions: {
-            headerTitle: 'Add Token',
-            headerStyle: {
-                backgroundColor: 'rgba(60,60,60,1)'
-            },
-            headerTitleStyle : {
-                color:'#fff'
-            },
-        },
-    },
-
-    Orders : {
-        screen : TradeContainer,
-         navigationOptions: {
-            headerTitle: 'Orders',
-            headerStyle: {
-                backgroundColor: 'rgba(60,60,60,1)'
-            },
-            headerTitleStyle : {
-                color:'#fff'
-            },
-        },
-    },
-
-    SearchInstrument :{
-        screen : SearchInstrument,
-         navigationOptions: {
-            headerTitle: 'Search Instrument',
-            headerStyle: {
-                backgroundColor: 'rgba(60,60,60,1)'
-            },
-            headerTitleStyle : {
-                color:'#fff'
-            },
-        },
-    },
-
-     OrderAndPosition :{
-        screen : OrderAndPosition,
-         navigationOptions: {
-            headerTitle: 'Order And Position',
-            headerStyle: {
-                backgroundColor: 'rgba(60,60,60,1)'
-            },
-            headerTitleStyle : {
-                color:'#fff'
-            },
-        },
-    },
-},
-);*/
-
+ 
 const mainDrawerRoutes ={
     Home: {
         screen:home
