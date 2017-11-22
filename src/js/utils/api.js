@@ -20,7 +20,7 @@ export function getInstruments(accessToken, assetTypes, keyword) {
     });
 }
 
-// fetch instruments from client lib based on the searched keyword 
+// fetch instruments from client lib based on the searched keyword
 export function searchInstruments(accessToken, keyword) {
     return services.getData({
         serviceGroup: 'ref',

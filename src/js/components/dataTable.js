@@ -11,16 +11,18 @@ function DataTable(props) {
         if (!_.isPlainObject(value)) {
             return (
                 <View flexWrap={'wrap'}
-                    style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }} key={key}>
+                    style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }} key={key}
+                >
                     <Text style={{ flex: 3.5, color: '#fff' }}
                         numberOfLines={5}
                         flexWrap={'wrap'}
                         ellipsizeMode={'tail'}
-                        overflow={'visible'}>{key}</Text>
-                        
-                    <View style={{ width: 1, backgroundColor: '#111', marginVertical: -16 }}></View>
+                        overflow={'visible'}
+                    >{key}</Text>
+
+                    <View style={{ width: 1, backgroundColor: '#111', marginVertical: -16 }} />
                     <View style={{ flex: 1 }} />
-                    <Text style={{ flex: 5.5, color: '#fff', }}
+                    <Text style={{ flex: 5.5, color: '#fff' }}
                         numberOfLines={5}
                         flexWrap={'wrap'}
                         overflow={'visible'}

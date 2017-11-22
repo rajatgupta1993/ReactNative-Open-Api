@@ -1,17 +1,18 @@
 import React from 'react';
-import {Text, View, Alert, ScrollView, Dimensions, ToastAndroid } from 'react-native';
-import { Icon, Root, Button } from 'native-base';
+import { Text, View, Alert, ScrollView, Dimensions, ToastAndroid } from 'react-native';
+import { Root, Button } from 'native-base';
 import * as queries from './queries';
-import { object } from 'prop-types';
+import { object, func, bool } from 'prop-types';
 import Error from '../error';
 import Dropdown from '../../components/dropdown';
 import UserInputs from './components/userInputs';
-import StockInfoRows from './components/stockInfoRows'
-import { checkIfOption,roundUptoNDecimals } from '../../utils/global';
+import StockInfoRows from './components/stockInfoRows';
+import { checkIfOption, roundUptoNDecimals } from '../../utils/global';
+import Stylesheet from '../../../styles/styleSheet';
 import ActivityIndicator from '../../components/activityIndicator';
-import Stylesheet from '../../../styles/Stylesheet';
-import { fetchInstrumentDetails } from '../assets/queries';
-let orderDuration = ['DayOrder', 'GoodTillCancel', 'ImmediateOrCancel'];
+import StockSummary from './components/stockSummary';
+
+const orderDuration = ['DayOrder', 'GoodTillCancel', 'ImmediateOrCancel'];
 const { deviceWidth, deviceHeight } = Dimensions.get('window');
 
 class Orders extends React.PureComponent {
@@ -70,18 +71,15 @@ class Orders extends React.PureComponent {
         this.handleOptionRoot = this.handleOptionRoot.bind(this);
         this.handleAccountSelect = this.handleAccountSelect.bind(this);
         this.handlePlaceOrder = this.handlePlaceOrder.bind(this);
-     //   this.roundUptoNDecimals = this.roundUptoNDecimals.bind(this);
         this.showAlert = this.showAlert.bind(this);
     }
 
     componentDidMount() {
-
         const { instrument } = this.props;
         queries.fetchAccountInfo(this.props, (response) => {
             this.setState({ accounts: queries.getAccountArray(response) });
             this.handleAccountSelect(this.state.accounts[0]);
         });
-
         this.handleInstrumentSelection(instrument);
     }
 
@@ -94,11 +92,10 @@ class Orders extends React.PureComponent {
         if (checkIfOption(instrument.AssetType)) {
             this.handleOptionRoot(instrument);
         } else {
-            fetchInstrumentDetails(instrument, this.props, (response) => {
+            queries.fetchInstrumentDetails(instrument, this.props, (response) => {
                 this.handleInstrumentChange(response);
             });
         }
-        // this.setState({ title: instrument.Description });
     }
 
     handleInstrumentChange(instrument) {
@@ -157,7 +154,7 @@ class Orders extends React.PureComponent {
         this.currentOrder.Orders = [];
         this.currentOrder.BuySell = BuySell;
 
-        let obj={selectedAccount:this.state.selectedAccount,...this.props}
+        const obj = { selectedAccount: this.state.selectedAccount, ...this.props };
         if (this.state.takeProfitOpen) {
             // Setup related order
             const order = queries.getRelatedOrder('Limit', this.takeProfitPrice, this.currentOrder);
@@ -172,17 +169,14 @@ class Orders extends React.PureComponent {
         queries.postOrder(this.currentOrder, this.props, (response) => {
             this.setState({ responseData: response });
             ToastAndroid.show('Order placed !! ', ToastAndroid.SHORT);
-            this.props.navigation.navigate('OrderAndPosition',{...obj});
+            this.props.navigation.navigate('OrderAndPosition', { ...obj });
         });
     }
 
-    // roundUptoNDecimals(num, decimal) {
-    //     return Math.round(num * Math.pow(10, decimal)) / Math.pow(10, decimal);
-    // }
     handleOrderDurationChange(buttonIndex) {
         this.currentOrder.OrderDuration.DurationType = orderDuration[buttonIndex];
         this.setState({
-            updated: !this.state.updated
+            updated: !this.state.updated,
         });
     }
 
@@ -206,42 +200,42 @@ class Orders extends React.PureComponent {
             'ORDER CONFIRMATION',
             'Do you want to place your order? ',
             [
-                { text: 'Cancel', onPress: () => console.log("Alert Closed") },
+                { text: 'Cancel' },
                 { text: 'OK', onPress: () => this.handlePlaceOrder(BuySell) },
             ],
         );
     }
 
     render() {
-        console.log("props in Trade ", this.props );
-        const { instrument,isLoading } = this.props;
-        let assetType = (instrument && instrument.AssetType === "CfdOnStock") ? "CFD" : instrument.AssetType;
+        const { instrument, isLoading } = this.props;
+        const assetType = (instrument && instrument.AssetType === 'CfdOnStock') ? 'CFD' : instrument.AssetType;
         const DisplayAndFormat = this.state.instrumentInfo ? this.state.instrumentInfo.DisplayAndFormat : null;
         const PriceInfo = this.state.instrumentInfo ? this.state.instrumentInfo.PriceInfo : null;
         const PriceInfoDetails = this.state.instrumentInfo ? this.state.instrumentInfo.PriceInfoDetails : null;
         const InstrumentPriceDetails = this.state.instrumentInfo ? this.state.instrumentInfo.InstrumentPriceDetails : null;
         const Quote = this.state.instrumentInfo ? this.state.instrumentInfo.Quote : null;
-        const marketStatus = (InstrumentPriceDetails && InstrumentPriceDetails.IsMarketOpen) ? "Market Open" : "Market Closed"
-        const netChangeColor = (PriceInfo && PriceInfo.NetChange > 0) ? 'green' : 'red'
+        const marketStatus = (InstrumentPriceDetails && InstrumentPriceDetails.IsMarketOpen) ? 'Market Open' : 'Market Closed';
+        const netChangeColor = (PriceInfo && PriceInfo.NetChange > 0) ? 'green' : 'red';
         const accountTitle = this.state.selectedAccount ? this.state.selectedAccount.AccountId : 'Select Account';
         return (
-            <ScrollView style={{ flex: 1, height: deviceHeight, width: deviceWidth, backgroundColor: '#444',}}>
-                <View style={[Stylesheet.FlexOne, Stylesheet.AppPaddingX, Stylesheet.AppPaddingTop, {  height: deviceHeight, width: deviceWidth }]}>
+            <ScrollView style={{ flex: 1, height: deviceHeight, width: deviceWidth, backgroundColor: '#444' }}>
+                <View style={[Stylesheet.FlexOne, Stylesheet.AppPaddingX, Stylesheet.AppPaddingTop, Stylesheet.screenWidthHeight]}>
                     <Root>
                         <Error>
                             Enter correct access token
-                    </Error>
-                        {(isLoading) && (<View style={{width:deviceWidth, height: deviceHeight,flex:1}}><ActivityIndicator
-                            animating={true}
+                        </Error>
+                        {(isLoading) && (<View style={{ width: deviceWidth, height: deviceHeight, flex: 1 }}><ActivityIndicator
+                            animating
                             color="#1E90FF"
                             size="large"
                         />
                         </View>)}
 
                         {/* select account dropdown*/}
-                        <View style={[Stylesheet.BoxUnderline, Stylesheet.XCenter, Stylesheet.YCenter,
-                        { flexDirection: 'row', height: 40, padding: 0, paddingHorizontal: 20, marginTop: 5, backgroundColor: '#000' }]}>
-                            <Text style={[Stylesheet.Text12BoldWhite, { flex: 1 }]}>Select Account </Text>
+                        <View style={[Stylesheet.BoxUnderline, Stylesheet.XCenter, Stylesheet.YCenter, Stylesheet.textNDropdown]}>
+                            <Text style={[Stylesheet.Text12BoldWhite, { flex: 1 }]}>
+                                Select Account
+                            </Text>
                             <Dropdown
                                 promptHeading={accountTitle}
                                 handleSelect={this.handleAccountSelect.bind(this)}
@@ -252,72 +246,64 @@ class Orders extends React.PureComponent {
                             />
                         </View>
 
-                        {/*1st row , Share name and market*/}
-                        {(DisplayAndFormat) && <View style={[Stylesheet.searchInstrumentRow, { flexDirection: 'row', backgroundColor: '#000', marginTop: 2 }]}>
-                            <View style={{ flex: 1 }}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text style={Stylesheet.Text12BoldWhite}>{DisplayAndFormat.Description}</Text>
-                                    <Text style={Stylesheet.searchInstrumentRowMinorText}>{assetType}</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Text style={Stylesheet.searchInstrumentRowMinorText}>{DisplayAndFormat.Symbol}</Text>
-                                    <Text style={Stylesheet.searchInstrumentRowMinorText}> . </Text>
-                                    <Text style={Stylesheet.searchInstrumentRowMinorText}>{DisplayAndFormat.Currency}</Text>
-                                </View>
-                            </View>
-                            <View style={{paddingHorizontal:10,}}>
-                                <Icon name="md-search"  style={{fontSize:18, color:'#fff'}}
-                                      onPress={() =>this.props.navigation.goBack('')}/>
-                            </View>
-                        </View>}
+                        {/* 1st row , Share name and market*/}
+                        {(DisplayAndFormat) &&
+                            <StockSummary DisplayAndFormat={DisplayAndFormat}
+                                assetType={assetType}
+                            />}
 
-                        {/*Last Traded , Today's change Low/High*/}
+                        {/* Last Traded , Today's change Low/High*/}
                         {(PriceInfo && PriceInfoDetails) && <View style={{ marginTop: 2 }}>
                             <StockInfoRows length="3"
                                 data1={PriceInfoDetails.LastTraded}
                                 data2={`${roundUptoNDecimals(PriceInfo.NetChange, DisplayAndFormat.Decimals)}/${PriceInfo.PercentChange}%`}
                                 data3={`${PriceInfo.Low}/${PriceInfo.High}`}
-                                netChangeColor={netChangeColor} />
+                                netChangeColor={netChangeColor}
+                            />
                             <StockInfoRows length="3"
                                 data1=" Last Traded"
                                 data2="Today's change"
                                 data3="Low / High"
                                 style
-                                margin />
+                                margin
+                            />
                         </View>}
 
-                        {/*Market Status */}
+                        {/* Market Status */}
                         {(InstrumentPriceDetails) && <StockInfoRows length="2"
                             data1={marketStatus}
-                            data2={this.state.instrumentInfo.PriceSource} 
-                            text/>}
+                            data2={this.state.instrumentInfo.PriceSource}
+                            text
+                        />}
 
-                        {/*Bid & Ask size*/}
-                       
-                        {(Quote && PriceInfoDetails) && <View style={{marginTop:2}}>
+                        {/* Bid & Ask size*/}
+
+                        {(Quote && PriceInfoDetails) && <View style={{ marginTop: 2 }}>
                             <StockInfoRows length="4"
                                 data1="Size"
                                 data2="Bid"
                                 data3="Ask"
                                 data4="Size"
-                                text />
+                                text
+                            />
 
                             <StockInfoRows length="4"
                                 data1={PriceInfoDetails.BidSize}
                                 data2={roundUptoNDecimals(Quote.Bid, DisplayAndFormat.Decimals)}
                                 data3={roundUptoNDecimals(Quote.Ask, DisplayAndFormat.Decimals)}
                                 data4={PriceInfoDetails.AskSize}
-                                text={false}/>
+                                text={false}
+                            />
                         </View>
                         }
 
-                        {/*Duration And price */}
+                        {/* Duration And price */}
                         {(PriceInfoDetails) && <View style={{ flexDirection: 'row', marginTop: 10 }}>
                             <UserInputs
-                                label='DURATION'
+                                label="DURATION"
                                 onChange={this.handleOrderDurationChange.bind(this)}
                                 options={orderDuration}
-                                componentClass='select'
+                                componentClass="select"
                                 value={this.currentOrder.OrderDuration.DurationType}
                                 heading="Select Order Duration"
                             />
@@ -325,51 +311,55 @@ class Orders extends React.PureComponent {
                             <View style={{ width: 10 }} />
 
                             <UserInputs
-                                label='PRICE'
+                                label="PRICE"
                                 onChange={this.handleOrderPriceChange.bind(this)}
-                                componentClass='text'
+                                componentClass="text"
                                 value={this.currentOrder.OrderPrice.toString()}
                                 placeholder="enter price"
                             />
                         </View>}
 
-                         {/*Type & Quantity*/}
-                        {(this.state.supportedOrderTypes.length !== 0) && <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                            <UserInputs options={this.state.supportedOrderTypes}
-                                label='TYPE'
-                                onChange={this.handleOrderTypeChange.bind(this)}
-                                currentOrder={this.currentOrder}
-                                componentClass='select'
-                                value={this.currentOrder.OrderType}
-                                heading="Select Order Type"
-                            />
+                        {/* Type & Quantity*/}
+                        {(this.state.supportedOrderTypes.length !== 0) &&
+                            <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
+                                <UserInputs options={this.state.supportedOrderTypes}
+                                    label="TYPE"
+                                    onChange={this.handleOrderTypeChange.bind(this)}
+                                    currentOrder={this.currentOrder}
+                                    componentClass="select"
+                                    value={this.currentOrder.OrderType}
+                                    heading="Select Order Type"
+                                />
 
-                            <View style={{ width: 10 }} />
+                                <View style={{ width: 10 }} />
 
-                            <UserInputs
-                                label='QUANTITY'
-                                onChange={this.handleOrderQuantityChange.bind(this)}
-                                componentClass='text'
-                                value={this.currentOrder.Amount.toString()}
-                                placeholder="Enter Quantity"
-                            />
-                        </View>}
+                                <UserInputs
+                                    label="QUANTITY"
+                                    onChange={this.handleOrderQuantityChange.bind(this)}
+                                    componentClass="text"
+                                    value={this.currentOrder.Amount.toString()}
+                                    placeholder="Enter Quantity"
+                                />
+                            </View>}
 
-
-
-                        {/*BUY & SELL BUTTON*/}
-                        <View style={{ width: deviceWidth, height: 30, flexDirection: 'row', marginTop: 10}}>
+                        {/* BUY & SELL BUTTON*/}
+                        <View style={{ width: deviceWidth, height: 30, flexDirection: 'row', marginTop: 10 }}>
 
                             <Button block light
-                                style={{ flex: 1, backgroundColor: '#c30101', marginRight: 5, height: 30 }}
-                                onPress={() => this.showAlert("sell")}>
-                                <Text style={[Stylesheet.Text12BoldWhite, { fontSize: 12, fontWeight: '700' }]}>SELL</Text>
+                                style={Stylesheet.sellButton}
+                                onPress={() => this.showAlert('sell')}
+                            >
+                                <Text style={[Stylesheet.Text12BoldWhite, { fontSize: 12, fontWeight: '700' }]}>
+                                    SELL
+                                </Text>
                             </Button>
-
                             <Button block light
-                                style={{ flex: 1, backgroundColor: '#1E90FF', marginLeft: 5, height: 30 }}
-                                onPress={() => this.showAlert("buy")}>
-                                <Text style={[Stylesheet.Text12BoldWhite, { fontSize: 12, fontWeight: '700' }]} >BUY</Text>
+                                style={[Stylesheet.sellButton, { backgroundColor: '#1E90FF' }]}
+                                onPress={() => this.showAlert('buy')}
+                            >
+                                <Text style={[Stylesheet.Text12BoldWhite, { fontSize: 12, fontWeight: '700' }]} >
+                                    BUY
+                                </Text>
                             </Button>
 
                         </View>
@@ -383,9 +373,11 @@ class Orders extends React.PureComponent {
 Orders.propTypes = {
     match: object,
     instrument: object,
+    navigation: object,
+    navigate: func,
+    isLoading: bool,
 };
 
 Orders.defaultProps = { match: {} };
 
-//export default bindHandlers(Orders);
 export default Orders;

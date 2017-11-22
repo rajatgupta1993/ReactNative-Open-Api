@@ -9,7 +9,7 @@ import SearchInstrument from './searchInstrument';
 const mapStateToProps = (store) => {
     return {
         accessToken: store.userInfo.accessToken,
-        isLoading:store.loader.isLoading,
+        isLoading: store.loader.isLoading,
     };
 };
 
@@ -23,5 +23,5 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-// using withRouter to fix the issue of react-router-dom v4 not working with the redux container 
+// using withRouter to fix the issue of react-router-dom v4 not working with the redux container
 export default connect(mapStateToProps, mapDispatchToProps)(SearchInstrument);

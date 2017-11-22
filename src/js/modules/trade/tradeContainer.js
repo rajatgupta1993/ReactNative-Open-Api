@@ -5,12 +5,11 @@ import Trade from './trade';
 // like introduction, ref, portfolio and other, so store is attached here and
 // passed down as props to other modules
 const mapStateToProps = (store, props) => {
-  
     return {
         ...props.navigation.state.params,
-        isLoading:store.loader.isLoading,
+        isLoading: store.loader.isLoading,
     };
 };
 
-// using withRouter to fix the issue of react-router-dom v4 not working with the redux container 
+// using withRouter to fix the issue of react-router-dom v4 not working with the redux container
 export default connect(mapStateToProps)(Trade);

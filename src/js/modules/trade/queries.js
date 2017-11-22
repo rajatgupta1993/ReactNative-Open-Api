@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { doWithLoader } from '../../utils/global';
-import { getInfoPrices, placeOrder, getAccountInfo ,searchInstruments, getInstrumentDetails, subscribePrices, removeIndividualSubscription} from '../../utils/api';
+import { getInfoPrices, placeOrder, getAccountInfo, searchInstruments,
+    getInstrumentDetails, subscribePrices, removeIndividualSubscription } from '../../utils/api';
 
 export function fetchInfoPrices(instrument, props, cb) {
     instrument.expiry = instrument.Expiry ? instrument.Expiry : instrument.FxForwardMaxForwardDate;
@@ -27,16 +28,14 @@ export function createSubscription(instrument, props, onPriceUpdate, cb) {
 }
 
 export function removeSubscription(subscription, props, cb) {
-        if (!_.isEmpty(subscription)) {
+    if (!_.isEmpty(subscription)) {
         doWithLoader(
             props,
             _.partial(removeIndividualSubscription, props.accessToken, subscription),
             () => cb()
         );
-    } else
-        return;
+    }
 }
-
 
 export function getAskBidFormData(instrumentInfo, currentOrder) {
     const askPrice = instrumentInfo ? instrumentInfo.Quote.Ask : 0.0;
@@ -71,16 +70,16 @@ export function getAskBidFormData(instrumentInfo, currentOrder) {
 
 export function getBuySellFormData(currentOrder) {
     return [
-    {
-        label: 'PRICE',
-        value: currentOrder.OrderPrice,
-        componentClass: 'text',
-    },
-    {
-        label: 'QUANTITY',
-        value: currentOrder.Amount,
-        componentClass: 'text',
-    },
+        {
+            label: 'PRICE',
+            value: currentOrder.OrderPrice,
+            componentClass: 'text',
+        },
+        {
+            label: 'QUANTITY',
+            value: currentOrder.Amount,
+            componentClass: 'text',
+        },
     ];
 }
 
@@ -89,13 +88,13 @@ export function orderTypeDurationFormData(supportedOrderTypes) {
         label: 'TYPE',
         value: supportedOrderTypes,
         componentClass: 'select',
-        heading: "Select Order Type"
+        heading: 'Select Order Type',
     },
     {
         label: 'DURATION',
         value: ['Day Order', 'Good Till Cancel', 'Immediate Or Cancel'],
         componentClass: 'select',
-        heading: "Select Order Duration"
+        heading: 'Select Order Duration',
     },
     ];
 }

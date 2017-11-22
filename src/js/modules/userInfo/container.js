@@ -5,8 +5,8 @@ import * as tokenActions from './actions';
 const mapStateToProps = (store) => {
     return {
         userData: store.userInfo.userData,
-        store: store,
-        isLoading:store.loader.isLoading,
+        store,
+        isLoading: store.loader.isLoading,
     };
 };
 

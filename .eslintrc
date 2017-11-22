@@ -50,7 +50,7 @@
         "no-sparse-arrays": "error",
         "no-template-curly-in-string": "off",
         "no-unexpected-multiline": "error",
-        "no-unreachable": "error",
+        "no-unreachable": "off",
         "no-unsafe-negation": "error",
         "no-unsafe-finally": "error",
         "use-isnan": "error",
@@ -346,7 +346,7 @@
                 "max": 2
             }
         ],
-        "multiline-ternary": "off",
+       // "multiline-ternary": "on",
         "new-cap": [
             "error",
             {
@@ -375,12 +375,12 @@
         ],
         "no-multi-assign": "off",
         "no-negated-condition": "error",
-        "no-nested-ternary": "error",
+       // "no-nested-ternary": "error",
         "no-new-object": "error",
         "no-plusplus": "off",
         "no-restricted-syntax": "off",
         "no-tabs": "error",
-        "no-ternary": "off",
+      //  "no-ternary": "off",
         "no-trailing-spaces": "error",
         "no-underscore-dangle": [
             "off",
@@ -391,12 +391,12 @@
             }
         ],
         // required in a few cases
-        "no-unneeded-ternary": [
-            "error",
-            {
-                "defaultAssignment": false
-            }
-        ],
+        // "no-unneeded-ternary": [
+        //     "error",
+        //     {
+        //         "defaultAssignment": false
+        //     }
+        // ],
         "no-whitespace-before-property": "error",
         "nonblock-statement-body-position": "off",
         "object-curly-newline": [
@@ -723,14 +723,14 @@
             "error",
             "never"
         ],
-        "react/jsx-filename-extension": [
-            "error",
-            {
-                "extensions": [
-                    ".jsx"
-                ]
-            }
-        ],
+        // "react/jsx-filename-extension": [
+        //     "error",
+        //     {
+        //         "extensions": [
+        //             ".jsx"
+        //         ]
+        //     }
+        // ],
         "react/jsx-handler-names": "off",
         "react/jsx-indent-props": [
             "error",
@@ -741,9 +741,9 @@
             4
         ],
         "react/jsx-key": "error",
-        "react/jsx-no-bind": ["error", {
-            "ignoreRefs": true
-        }],
+        // "react/jsx-no-bind": ["error", {
+        //     "ignoreRefs": true
+        // }],
         "react/jsx-no-comment-textnodes": "error",
         "react/jsx-no-duplicate-props": "error",
         "react/jsx-no-literals": "off",

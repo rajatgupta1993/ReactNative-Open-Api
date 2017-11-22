@@ -1,35 +1,24 @@
 import React from 'react';
-import {
-    Platform,
-    StyleSheet,
-    Text,
-    View,
-    Button,
-    TextInput,
-    ActivityIndicator,
-    Picker,
-} from 'react-native';
-
-import Stylesheet from '../../styles/Stylesheet'
+import { Picker } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-function Dropdown({ data, title, id, itemKey, value, handleSelect,promptHeading }) {
-   
+function Dropdown({ data, title, id, itemKey, value, handleSelect, promptHeading }) {
+
     return (
 
         <Picker
             onValueChange={handleSelect}
-            mode='dialog'
+            mode="dialog"
             prompt={promptHeading}
             selectedValue={title}
-            style={{flex:1.5,}}
-           
-           >
+            style={{ flex: 1.5 }}
+        >
             {_.map(data, (item) => (
                 <Picker.Item label={itemKey ? item[itemKey] : item}
-                             value={value ? item[value] : item}
-                             key={id} />)
+                    value={value ? item[value] : item}
+                    key={id}
+                />)
             )}
         </Picker>
     );

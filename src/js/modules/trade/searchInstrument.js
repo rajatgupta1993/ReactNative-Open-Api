@@ -1,14 +1,14 @@
 import React from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, Dimensions, } from 'react-native';
-import { Container, Header, Item, Input, Icon, Button, } from 'native-base';
+import { Text, View, ScrollView, Dimensions, StyleSheet } from 'react-native';
+import { Container, Item, Input, Icon } from 'native-base';
 import * as queries from './queries';
-import { object } from 'prop-types';
+import { bool } from 'prop-types';
 import Error from '../error';
-import ActivityIndicator from '../../components/activityIndicator';
-import Stylesheet from '../../../styles/Stylesheet';
+import Stylesheet from '../../../styles/styleSheet';
 import InstrumentRow from './instrumentRow';
-const { width, height } = Dimensions.get('window');
+import ActivityIndicator from '../../components/activityIndicator';
 
+const { height } = Dimensions.get('window');
 
 class searchInstrument extends React.Component {
 
@@ -17,18 +17,18 @@ class searchInstrument extends React.Component {
 
         this.state = {
             searchTerm: '',
-            instrumentSearchResult: []
-        }
+            instrumentSearchResult: [],
+        };
     }
     onSearchTextChange(text) {
         this.setState({ searchTerm: text });
         if (text.length <= 1) {
-            this.setState({ instrumentSearchResult: [] })
+            this.setState({ instrumentSearchResult: [] });
         } else {
             queries.fetchInstrumentsByKeyword(text, this.props, (response) => {
                 this.setState({
-                    instrumentSearchResult: response.Data
-                })
+                    instrumentSearchResult: response.Data,
+                });
             });
         }
 
@@ -37,46 +37,54 @@ class searchInstrument extends React.Component {
     render() {
         return (
 
-            <Container style={{ flex: 1,backgroundColor:'#444' }}>
-                  <Error>
-                            Enter correct access token
-                    </Error>
+            <Container style={{ flex: 1, backgroundColor: '#444' }}>
+                <Error>
+                    Enter correct access token
+                </Error>
                 <View style={{ backgroundColor: '#888', padding: 10 }}>
-                    <Item style={{ backgroundColor: '#444', paddingHorizontal: 5 }}>
-                        <Icon name="ios-search" />
+                    <Item style={{ backgroundColor: '#444', paddingHorizontal: 10 }}>
+                        <Icon name="ios-search" style={{ color: '#fff' }} />
                         <Input placeholder="Search"
+                            placeholderTextColor="#fff"
                             onChangeText={this.onSearchTextChange.bind(this)}
                             value={this.state.searchTerm}
-                            style={{ color: '#fff', height: 40, marginTop: 2 }} />
-                        <Icon name="md-close"
-                            onPress={() => this.setState({ searchTerm: '', instrumentSearchResult: [] })} />
+                            style={{ color: '#fff', height: 40, marginTop: 2 }}
+                        />
+                        <Icon name="md-close" style={{ color: '#fff' }}
+                            onPress={() => this.setState({ searchTerm: '', instrumentSearchResult: [] })}
+                        />
                     </Item>
                 </View>
 
-                {(this.props.isLoading) ? (
+                {(this.props.isLoading) && (
                     <ActivityIndicator
-                        animating={true}
-                        color='#1E90FF'
+                        animating
+                        color="#1E90FF"
                         size="large"
-                    />) : (
-                        <ScrollView style={{ flex: 1 }}>
-                            {(this.state.instrumentSearchResult.length !== 0) ? (<View style={{ flex: 1 }}>
-                                <InstrumentRow
-                                    {...this.props}
-                                    data={this.state.instrumentSearchResult} />
-                            </View>) :
-                                (<View style={{ height: height - 60, flex: 1, backgroundColor: '#444', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Icon name="md-search" />
-                                    <Text style={{ fontSize: 16, fontFamily: 'roboto' }}> Find Instrument </Text>
-                                </View>)}
-                        </ScrollView>)}
+                    />)}
+                <ScrollView style={{ flex: 1 }}>
+                    {(this.state.instrumentSearchResult.length !== 0) ? (
+                        <View style={{ flex: 1 }}>
+                            <InstrumentRow
+                                {...this.props}
+                                data={this.state.instrumentSearchResult}
+                            />
+                        </View>) :
+                        (<View style={Stylesheet.searchInstrumentDefaultView}>
+                            <Icon name="md-search" style={{ color: '#fff' }} />
+                            <Text style={{ fontSize: 16, fontFamily: 'roboto', color: '#fff' }}>
+                                Find Instrument
+                             </Text>
+                        </View>)}
+                </ScrollView>
             </Container>
 
         );
     }
 }
 
+export default searchInstrument;
 
-
-//export default bindHandlers(Orders);
-export default searchInstrument
+searchInstrument.propTypes = {
+    isLoading: bool,
+};

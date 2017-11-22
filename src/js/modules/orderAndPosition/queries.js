@@ -1,7 +1,6 @@
 import { doWithLoader, doWithLoaderAll } from '../../utils/global';
 import * as API from '../../utils/api';
 import _ from 'lodash';
-import { getAccountInfo } from '../../utils/api';
 
 export function unSubscribe(props, subscription, cb) {
     doWithLoader(props, _.partial(API.removeIndividualSubscription, props.accessToken, subscription), () => cb());
@@ -47,5 +46,5 @@ export function getAccountArray(accountInfo) {
 }
 
 export function fetchAccountInfo(props, cb) {
-    doWithLoader(props, _.partial(getAccountInfo, props.accessToken), (result) => cb(result.response));
+    doWithLoader(props, _.partial(API.getAccountInfo, props.accessToken), (result) => cb(result.response));
 }

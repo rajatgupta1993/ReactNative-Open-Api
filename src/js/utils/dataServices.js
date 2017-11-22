@@ -1,11 +1,10 @@
 import _ from 'lodash';
-import {saxo} from 'openapi-clientlib';
+import { saxo } from 'openapi-clientlib';
 import signalr from 'react-native-signalr';
-//var t = require('openapi-clientlib');
+
+// var t = require('openapi-clientlib');
 window.$ = window.jQuery;
 window.$.connection = _.partial(signalr.hubConnection);
-
-
 
 const transportUrl = 'https://gateway.saxobank.com/sim/openapi';
 const streamingUrl = 'https://streaming.saxotrader.com/sim/openapi';

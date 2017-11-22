@@ -1,19 +1,15 @@
 import React from 'react';
 import {
-    Platform,
-    StyleSheet,
     Text,
     View,
     Button,
     TextInput,
-    ScrollView
+    ScrollView,
 } from 'react-native';
 
-// import DetailsHeader from 'src/js/components/detailsHeader';
- import { object, string, func,bool } from 'prop-types';
-// import DataTable from 'src/js/components/dataTable';
- import Error from '../error';
-import Stylesheet from '../../../styles/Stylesheet';
+import { object, string, func, bool } from 'prop-types';
+import Error from '../error';
+import Stylesheet from '../../../styles/styleSheet';
 import DataTable from '../../components/dataTable';
 import ActivityIndicator from '../../components/activityIndicator';
 
@@ -36,63 +32,55 @@ class UserInfo extends React.PureComponent {
     }
 
     render() {
-        const { userData,  isLoading } = this.props;
-       
+        const { userData, isLoading } = this.props;
         return (
-            <ScrollView style={[Stylesheet.FlexOne, Stylesheet.WhiteBg,{backgroundColor:'#444'}]}>
-             <View style={[Stylesheet.AppPaddingX, Stylesheet.AppPaddingTop, Stylesheet.FlexOne]}>
+            <ScrollView style={[Stylesheet.FlexOne, Stylesheet.WhiteBg, { backgroundColor: '#444' }]}>
+                <View style={[Stylesheet.AppPaddingX, Stylesheet.AppPaddingTop, Stylesheet.FlexOne]}>
 
-                  <Error>
+                    <Error>
                         Please enter correct access token below.
-                   </Error>
-                {(isLoading)? ( <ActivityIndicator
-                    animating={true}
-                    color="#4c4cff"
-                    size="large"
-                      />) :(
-                        <View style={[Stylesheet.BoxUnderline,{borderColor:'#111'}]}>
+                    </Error>
+                    {(isLoading) ? (<ActivityIndicator
+                        animating
+                        color="#4c4cff"
+                        size="large"
+                    />) : (
+                        <View style={[Stylesheet.BoxUnderline, { borderColor: '#111' }]}>
                             <Text style={Stylesheet.h3}>Set Access Token </Text>
                             <TextInput
-                                style={{ height: 40, marginBottom: 20, marginTop: 10 ,color:'#fff'}}
-                                multiline={true}
-                                //autoGrow={true}
-                                selectTextOnFocus={true}
+                                style={{ height: 40, marginBottom: 20, marginTop: 10, color: '#fff' }}
+                                multiline
+                                selectTextOnFocus
                                 placeholder="Paste authorization token here"
                                 placeholderTextColor="#fff"
                                 onChangeText={this.handleTokenChng}
-                                value={this.state.accessToken} />
+                                value={this.state.accessToken}
+                            />
 
-                            <Button style={{}}
+                            <Button
                                 title="Submit"
-                                 color='#222'
-                                onPress={this.handleFormSubmit.bind(this)} />
-                        </View> )}
+                                color="#222"
+                                onPress={this.handleFormSubmit.bind(this)}
+                            />
+                        </View>)}
 
-                        {(userData != null && userData.ClientKey != null) && (
-                            <View style={[Stylesheet.BoxUnderline, { marginTop: 20,height:400,borderColor:'#111'}]}>
-                                <DataTable data={userData}/>
-                            </View>)}
-                            
-                 
-                    </View>
-                    </ScrollView>
-           
-                   
+                    {(userData != null && userData.ClientKey != null) && (
+                        <View style={[Stylesheet.BoxUnderline, { marginTop: 20, height: 400, borderColor: '#111' }]}>
+                            <DataTable data={userData}/>
+                        </View>)}
+
+                </View>
+            </ScrollView>
+
         );
-}
+    }
 }
 
 UserInfo.propTypes = {
     accessToken: string,
     userData: object,
     getUserDetails: func.isRequired,
-    isLoading : bool,
+    isLoading: bool,
 };
 
-// UserInfo.defaultProps = {
-//     userData: {},
-//     match: {},
-// };
-
-//export default bindHandlers(UserInfo);
 export default UserInfo;
